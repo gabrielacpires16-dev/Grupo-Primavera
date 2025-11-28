@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="pt-BR">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grupo Primavera</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes pulse-heart {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .float-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .pulse-heart {
+      animation: pulse-heart 1.5s ease-in-out infinite;
+    }
+    
+    .gradient-red {
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    }
+    
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="w-full min-h-full">
+  <div id="app" class="w-full min-h-full"></div>
+  <script>
+    const defaultConfig = {
+      primary_color: "#dc2626",
+      secondary_color: "#ffffff",
+      text_color: "#1f2937",
+      accent_color: "#991b1b",
+      card_background: "#f9fafb",
+      font_family: "system-ui",
+      font_size: 16,
+      org_name: "Grupo Primavera",
+      tagline: "Transformando vidas desde 1981",
+      about_title: "Sobre o Grupo Primavera",
+      about_text: "Uma Organização da Sociedade Civil que recebe crianças, adolescentes e jovens de 6 a 18 anos do entorno do Jardim São Marcos, Campinas (SP), para atendê-las em programas de educação complementar, cultural e profissional. Classificada como Serviço de Convivência e Fortalecimento de Vínculos, a entidade foi fundada em 1981 e atende hoje cerca de 484 meninas e meninos, além de seus familiares.",
+      mission_title: "Nossa Missão",
+      mission_text: "Promover o desenvolvimento integral de crianças, adolescentes e jovens em situação de vulnerabilidade social, através de programas educacionais, culturais e profissionalizantes que fortaleçam vínculos familiares e comunitários.",
+      vision_title: "Nossa Visão",
+      vision_text: "Ser referência em educação complementar e desenvolvimento social, transformando realidades e construindo um futuro de oportunidades para jovens da região de Campinas.",
+      values_title: "Nossos Valores",
+      history_title: "Nossa História",
+      history_text: "Fundado em 1981 por um grupo de moradores do Jardim São Marcos em Campinas, o Grupo Primavera nasceu da necessidade de oferecer um espaço seguro e educativo para crianças e adolescentes da comunidade. Ao longo de mais de 40 anos, expandimos nossas atividades e hoje somos uma referência em programas socioeducativos na região.",
+      team_title: "Nossa Equipe",
+      team_text: "Contamos com uma equipe multidisciplinar dedicada, composta por educadores, psicólogos, assistentes sociais, arte-educadores e voluntários comprometidos com a transformação social. Todos trabalham juntos para garantir um atendimento de qualidade e humanizado.",
+      partnerships_title: "Parcerias e Certificações",
+      partnerships_text: "Somos certificados como Organização da Sociedade Civil de Interesse Público (OSCIP) e mantemos parcerias com empresas, universidades e poder público. Possuímos certificações de transparência e prestação de contas, garantindo a confiança de nossos apoiadores.",
+      programs_intro: "O Grupo Primavera oferece uma programação completa que atende crianças e jovens em diferentes faixas etárias, sempre com foco no desenvolvimento integral e na formação de cidadãos conscientes.",
+      impact_intro: "Em mais de 4 décadas de trabalho dedicado, o Grupo Primavera já transformou milhares de vidas:",
+      testimonial_title: "Depoimentos",
+      testimonial_1: "O Grupo Primavera mudou a vida da minha família. Meu filho encontrou aqui um lugar seguro para aprender e crescer.",
+      testimonial_1_author: "Maria Silva, mãe de aluno",
+      testimonial_2: "Graças ao programa Jovem Aprendiz, consegui meu primeiro emprego e hoje sou exemplo na minha comunidade.",
+      testimonial_2_author: "João Santos, ex-aluno",
+      years_label: "Anos de atividades",
+      children_served_label: "Crianças atendidas em 38 anos",
+      daily_attendance_label: "Atendimentos diários",
+      pacto_title: "Processo Seletivo PACTO 2026",
+      pacto_description: "Inscreva-se no nosso processo seletivo e faça parte da transformação!",
+      volunteer_title: "Seja Voluntário",
+      volunteer_description: "Contribua com seu tempo, talento e faça a diferença na vida de crianças e jovens.",
+      store_title: "Nossa Loja Solidária",
+      store_description: "Adquira produtos e ajude a manter nossos programas sociais",
+      denounce_title: "Canal de Denúncias",
+      denounce_description: "Denúncias anônimas e seguras. Seu relato é importante para garantir a segurança de todos.",
+      schedule_title: "Horários de Funcionamento",
+      schedule_weekdays: "Segunda a Sexta: 7h às 17h",
+      schedule_note: "Horários podem variar conforme atividade",
+      transparency_title: "Transparência",
+      transparency_text: "Publicamos relatórios anuais de atividades e prestação de contas. Acesse nosso site para conhecer nossos resultados e como utilizamos os recursos.",
+      contact_title: "Entre em Contato",
+      address_text: "R. Luís Aristeo Nucci, 30 - Jardim São Marcos, Campinas - SP",
+      phone_text: "(19) 3746-7990"
+    };
+
+    async function onConfigChange(config) {
+      const app = document.getElementById('app');
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      const cardBg = config.card_background || defaultConfig.card_background;
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      const fontSize = config.font_size || defaultConfig.font_size;
+      
+      app.style.fontFamily = `${fontFamily}, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`;
+      app.style.backgroundColor = secondaryColor;
+      app.style.color = textColor;
+      
+      app.innerHTML = `
+        <!-- Header -->
+        <header style="background: ${primaryColor}; padding: ${fontSize * 2}px ${fontSize * 1.5}px;">
+          <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: ${fontSize}px;">
+            <div style="display: flex; align-items: center; gap: ${fontSize}px;">
+              <svg class="pulse-heart" width="${fontSize * 3}" height="${fontSize * 3}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="${secondaryColor}"/>
+              </svg>
+              <div>
+                <h1 style="font-size: ${fontSize * 1.75}px; font-weight: bold; color: ${secondaryColor}; margin: 0;">${config.org_name || defaultConfig.org_name}</h1>
+                <p style="font-size: ${fontSize * 0.875}px; color: ${secondaryColor}; opacity: 0.9; margin: ${fontSize * 0.25}px 0 0 0;">${config.tagline || defaultConfig.tagline}</p>
+              </div>
+            </div>
+            <div style="display: flex; gap: ${fontSize * 0.75}px;">
+              <a href="https://www.facebook.com/grupoprimavera" target="_blank" rel="noopener noreferrer" style="width: ${fontSize * 2.5}px; height: ${fontSize * 2.5}px; background: ${secondaryColor}; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                <span style="color: ${primaryColor}; font-size: ${fontSize * 1.25}px;">f</span>
+              </a>
+              <a href="https://www.instagram.com/grupoprimavera" target="_blank" rel="noopener noreferrer" style="width: ${fontSize * 2.5}px; height: ${fontSize * 2.5}px; background: ${secondaryColor}; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                <span style="color: ${primaryColor}; font-size: ${fontSize * 1.25}px;">📷</span>
+              </a>
+            </div>
+          </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section style="background: linear-gradient(135deg, ${primaryColor} 0%, ${accentColor} 100%); padding: ${fontSize * 4}px ${fontSize * 1.5}px; text-align: center;">
+          <div style="max-width: 800px; margin: 0 auto;">
+            <div class="float-animation" style="font-size: ${fontSize * 4}px; margin-bottom: ${fontSize * 1.5}px;">❤️</div>
+            <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${secondaryColor}; margin: 0 0 ${fontSize}px 0;">Abrace essa causa</h2>
+            <p style="font-size: ${fontSize * 1.125}px; color: ${secondaryColor}; opacity: 0.95; line-height: 1.6; margin: 0 0 ${fontSize * 2}px 0;">
+              Juntos podemos transformar o futuro de crianças e jovens através da educação e cultura
+            </p>
+            <button onclick="document.getElementById('donate').scrollIntoView({behavior: 'smooth'})" style="background: ${secondaryColor}; color: ${primaryColor}; padding: ${fontSize}px ${fontSize * 2}px; border-radius: ${fontSize * 0.5}px; font-size: ${fontSize * 1.125}px; font-weight: 600; border: none; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;">
+              Doe Agora
+            </button>
+          </div>
+        </section>
+
+        <!-- About Section -->
+        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${secondaryColor};">
+          <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${textColor}; margin: 0 0 ${fontSize * 1.5}px 0; text-align: center;">${config.about_title || defaultConfig.about_title}</h2>
+            <p style="font-size: ${fontSize * 1.125}px; color: ${textColor}; line-height: 1.8; text-align: center; max-width: 900px; margin: 0 auto ${fontSize * 2}px auto;">
+              ${config.about_text || defaultConfig.about_text}
+            </p>
+            
+            <!-- Mission, Vision, Values -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: ${fontSize * 2}px; margin-top: ${fontSize * 3}px;">
+              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; border-left: 4px solid ${primaryColor};">
+                <h3 style="font-size: ${fontSize * 1.375}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize}px 0;">${config.mission_title || defaultConfig.mission_title}</h3>
+                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0;">${config.mission_text || defaultConfig.mission_text}</p>
+              </div>
+              
+              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; border-left: 4px solid ${primaryColor};">
+                <h3 style="font-size: ${fontSize * 1.375}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize}px 0;">${config.vision_title || defaultConfig.vision_title}</h3>
+                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0;">${config.vision_text || defaultConfig.vision_text}</p>
+              </div>
+              
+              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; border-left: 4px solid ${primaryColor};">
+                <h3 style="font-size: ${fontSize * 1.375}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize}px 0;">${config.values_title || defaultConfig.values_title}</h3>
+                <ul style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0; padding-left: ${fontSize * 1.5}px;">
+                  <li style="margin-bottom: ${fontSize * 0.5}px;">Respeito e dignidade</li>
+                  <li style="margin-bottom: ${fontSize * 0.5}px;">Compromisso com a educação</li>
+                  <li style="margin-bottom: ${fontSize * 0.5}px;">Transparência e ética</li>
+                  <li>Desenvolvimento integral</li>
+                </ul>
+              </div>
+            </div>
+            
+            <!-- History Section -->
+            <div style="margin-top: ${fontSize * 4}px; background: ${cardBg}; padding: ${fontSize * 2.5}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+              <h3 style="font-size: ${fontSize * 1.5}px; font-weight: bold; color: ${primaryColor}; margin: 0 0 ${fontSize * 1.5}px 0; text-align: center;">${config.history_title || defaultConfig.history_title}</h3>
+              <p style="font-size: ${fontSize * 1.0625}px; color: ${textColor}; opacity: 0.9; line-height: 1.8; margin: 0; text-align: center; max-width: 900px; margin: 0 auto;">${config.history_text || defaultConfig.history_text}</p>
+            </div>
+            
+            <!-- Team and Partnerships -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: ${fontSize * 2}px; margin-top: ${fontSize * 3}px;">
+              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div style="text-align: center; font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">👥</div>
+                <h3 style="font-size: ${fontSize * 1.375}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize}px 0; text-align: center;">${config.team_title || defaultConfig.team_title}</h3>
+                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0; text-align: center;">${config.team_text || defaultConfig.team_text}</p>
+              </div>
+              
+              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div style="text-align: center; font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">🏆</div>
+                <h3 style="font-size: ${fontSize * 1.375}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize}px 0; text-align: center;">${config.partnerships_title || defaultConfig.partnerships_title}</h3>
+                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0; text-align: center;">${config.partnerships_text || defaultConfig.partnerships_text}</p>
+              </div>
+            </div>
+            
+            <!-- Impact Stats -->
+            <p style="font-size: ${fontSize * 1.125}px; color: ${textColor}; opacity: 0.9; line-height: 1.7; text-align: center; max-width: 800px; margin: ${fontSize * 4}px auto ${fontSize * 2}px auto;">
+              ${config.impact_intro || defaultConfig.impact_intro}
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: ${fontSize * 1.5}px; margin-top: ${fontSize * 1.5}px;">
+              <div class="card-hover" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                <div style="font-size: ${fontSize * 3}px; font-weight: bold; color: ${primaryColor}; margin-bottom: ${fontSize * 0.5}px;">43</div>
+                <div style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.8;">${config.years_label || defaultConfig.years_label}</div>
+              </div>
+              <div class="card-hover" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                <div style="font-size: ${fontSize * 3}px; font-weight: bold; color: ${primaryColor}; margin-bottom: ${fontSize * 0.5}px;">12.000+</div>
+                <div style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.8;">${config.children_served_label || defaultConfig.children_served_label}</div>
+              </div>
+              <div class="card-hover" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                <div style="font-size: ${fontSize * 3}px; font-weight: bold; color: ${primaryColor}; margin-bottom: ${fontSize * 0.5}px;">484</div>
+                <div style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.8;">${config.daily_attendance_label || defaultConfig.daily_attendance_label}</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Activities Section -->
+        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${cardBg};">
+          <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${textColor}; margin: 0 0 ${fontSize}px 0; text-align: center;">Nossas Atividades</h2>
+            <p style="font-size: ${fontSize * 1.125}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; text-align: center; max-width: 900px; margin: 0 auto ${fontSize * 3}px auto;">
+              ${config.programs_intro || defaultConfig.programs_intro}
+            </p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: ${fontSize * 1.5}px;">
+              <div class="card-hover" style="background: ${secondaryColor}; padding: ${fontSize * 1.5}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">📚</div>
+                <h3 style="font-size: ${fontSize * 1.25}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Educação Complementar</h3>
+                <p style="font-size: ${fontSize * 0.9375}px; color: ${textColor}; opacity: 0.8; line-height: 1.6; margin: 0 0 ${fontSize * 0.75}px 0;">Reforço escolar e atividades pedagógicas que complementam o ensino formal.</p>
+                <ul style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.75; line-height: 1.5; margin: 0; padding-left: ${fontSize * 1.25}px;">
+                  <li>Apoio às lições de casa</li>
+                  <li>Oficinas de leitura e escrita</li>
+                  <li>Matemática lúdica</li>
+                  <li>Faixa etária: 6 a 14 anos</li>
+                </ul>
+              </div>
+              
+              <div class="card-hover" style="background: ${secondaryColor}; padding: ${fontSize * 1.5}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">🎨</div>
+                <h3 style="font-size: ${fontSize * 1.25}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Atividades Culturais</h3>
+                <p style="font-size: ${fontSize * 0.9375}px; color: ${textColor}; opacity: 0.8; line-height: 1.6; margin: 0 0 ${fontSize * 0.75}px 0;">Arte, música, dança e teatro para desenvolvimento da criatividade.</p>
+                <ul style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.75; line-height: 1.5; margin: 0; padding-left: ${fontSize * 1.25}px;">
+                  <li>Oficinas de artes plásticas</li>
+                  <li>Teatro e expressão corporal</li>
+                  <li>Música e instrumentos</li>
+                  <li>Dança e coreografia</li>
+                </ul>
+              </div>
+              
+              <div class="card-hover" style="background: ${secondaryColor}; padding: ${fontSize * 1.5}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">💼</div>
+                <h3 style="font-size: ${fontSize * 1.25}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Capacitação Profissional</h3>
+                <p style="font-size: ${fontSize * 0.9375}px; color: ${textColor}; opacity: 0.8; line-height: 1.6; margin: 0 0 ${fontSize * 0.75}px 0;">Preparação para o mercado de trabalho e desenvolvimento de habilidades.</p>
+                <ul style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.75; line-height: 1.5; margin: 0; padding-left: ${fontSize * 1.25}px;">
+                  <li>Informática básica e avançada</li>
+                  <li>Oficinas profissionalizantes</li>
+                  <li>Orientação vocacional</li>
+                  <li>Faixa etária: 14 a 18 anos</li>
+                </ul>
+              </div>
+              
+              <div class="card-hover" style="background: ${secondaryColor}; padding: ${fontSize * 1.5}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">⚽</div>
+                <h3 style="font-size: ${fontSize * 1.25}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Esportes</h3>
+                <p style="font-size: ${fontSize * 0.9375}px; color: ${textColor}; opacity: 0.8; line-height: 1.6; margin: 0 0 ${fontSize * 0.75}px 0;">Atividades esportivas para promover saúde, disciplina e trabalho em equipe.</p>
+                <ul style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.75; line-height: 1.5; margin: 0; padding-left: ${fontSize * 1.25}px;">
+                  <li>Futebol e futsal</li>
+                  <li>Vôlei e handebol</li>
+                  <li>Jogos cooperativos</li>
+                  <li>Todas as idades</li>
+                </ul>
+              </div>
+              
+              <div class="card-hover" style="background: ${secondaryColor}; padding: ${fontSize * 1.5}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">👨‍👩‍👧</div>
+                <h3 style="font-size: ${fontSize * 1.25}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Apoio às Famílias</h3>
+                <p style="font-size: ${fontSize * 0.9375}px; color: ${textColor}; opacity: 0.8; line-height: 1.6; margin: 0 0 ${fontSize * 0.75}px 0;">Fortalecimento de vínculos familiares e comunitários.</p>
+                <ul style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.75; line-height: 1.5; margin: 0; padding-left: ${fontSize * 1.25}px;">
+                  <li>Reuniões com pais e responsáveis</li>
+                  <li>Atendimento psicossocial</li>
+                  <li>Palestras e workshops</li>
+                  <li>Encaminhamentos à rede</li>
+                </ul>
+              </div>
+              
+              <div class="card-hover" style="background: ${secondaryColor}; padding: ${fontSize * 1.5}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">🎓</div>
+                <h3 style="font-size: ${fontSize * 1.25}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Jovem Aprendiz</h3>
+                <p style="font-size: ${fontSize * 0.9375}px; color: ${textColor}; opacity: 0.8; line-height: 1.6; margin: 0 0 ${fontSize * 0.75}px 0;">Programa de inserção profissional para adolescentes e jovens.</p>
+                <ul style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.75; line-height: 1.5; margin: 0; padding-left: ${fontSize * 1.25}px;">
+                  <li>Encaminhamento ao mercado</li>
+                  <li>Curso de aprendizagem</li>
+                  <li>Acompanhamento no trabalho</li>
+                  <li>16 a 18 anos</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PACTO 2026 Section -->
+        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${secondaryColor};">
+          <div style="max-width: 800px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: ${fontSize * 3}px;">
+              <div style="font-size: ${fontSize * 3}px; margin-bottom: ${fontSize}px;">📝</div>
+              <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${textColor}; margin: 0 0 ${fontSize}px 0;">${config.pacto_title || defaultConfig.pacto_title}</h2>
+              <p style="font-size: ${fontSize * 1.125}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0;">${config.pacto_description || defaultConfig.pacto_description}</p>
+            </div>
+            
+            <form id="pactoForm" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+              <div style="margin-bottom: ${fontSize * 1.5}px;">
+                <label for="nome" style="display: block; font-size: ${fontSize * 0.875}px; font-weight: 600; color: ${textColor}; margin-bottom: ${fontSize * 0.5}px;">Nome Completo *</label>
+                <input type="text" id="nome" required style="width: 100%; padding: ${fontSize * 0.75}px ${fontSize}px; border: 1px solid #d1d5db; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; box-sizing: border-box;">
+              </div>
+              
+              <div style="margin-bottom: ${fontSize * 1.5}px;">
+                <label for="email" style="display: block; font-size: ${fontSize * 0.875}px; font-weight: 600; color: ${textColor}; margin-bottom: ${fontSize * 0.5}px;">E-mail *</label>
+                <input type="email" id="email" required style="width: 100%; padding: ${fontSize * 0.75}px ${fontSize}px; border: 1px solid #d1d5db; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; box-sizing: border-box;">
+              </div>
+              
+              <div style="margin-bottom: ${fontSize * 1.5}px;">
+                <label for="telefone" style="display: block; font-size: ${fontSize * 0.875}px; font-weight: 600; color: ${textColor}; margin-bottom: ${fontSize * 0.5}px;">Telefone *</label>
+                <input type="tel" id="telefone" required style="width: 100%; padding: ${fontSize * 0.75}px ${fontSize}px; border: 1px solid #d1d5db; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; box-sizing: border-box;">
+              </div>
+              
+              <div style="margin-bottom: ${fontSize * 1.5}px;">
+                <label for="area" style="display: block; font-size: ${fontSize * 0.875}px; font-weight: 600; color: ${textColor}; margin-bottom: ${fontSize * 0.5}px;">Área de Interesse *</label>
+                <select id="area" required style="width: 100%; padding: ${fontSize * 0.75}px ${fontSize}px; border: 1px solid #d1d5db; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; box-sizing: border-box;">
+                  <option value="">Selecione uma área</option>
+                  <option value="educacao">Educação</option>
+                  <option value="cultura">Cultura</option>
+                  <option value="esportes">Esportes</option>
+                  <option value="administrativo">Administrativo</option>
+                  <option value="jovem-aprendiz">Jovem Aprendiz</option>
+                </select>
+              </div>
+              
+              <div style="margin-bottom: ${fontSize * 2}px;">
+                <label for="mensagem" style="display: block; font-size: ${fontSize * 0.875}px; font-weight: 600; color: ${textColor}; margin-bottom: ${fontSize * 0.5}px;">Por que deseja participar?</label>
+                <textarea id="mensagem" rows="4" style="width: 100%; padding: ${fontSize * 0.75}px ${fontSize}px; border: 1px solid #d1d5db; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; resize: vertical; box-sizing: border-box;"></textarea>
+              </div>
+              
+              <div id="pactoMessage" style="display: none; padding: ${fontSize}px; border-radius: ${fontSize * 0.375}px; margin-bottom: ${fontSize * 1.5}px; text-align: center; font-size: ${fontSize * 0.875}px;"></div>
+              
+              <button type="submit" style="width: 100%; background: ${primaryColor}; color: ${secondaryColor}; padding: ${fontSize}px; border: none; border-radius: ${fontSize * 0.5}px; font-size: ${fontSize * 1.125}px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='${accentColor}'" onmouseout="this.style.background='${primaryColor}'">
+                Enviar Inscrição
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Volunteer & Store Section -->
+        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${cardBg};">
+          <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: ${fontSize * 2}px;">
+              <div style="background: ${secondaryColor}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;">
+                <div style="font-size: ${fontSize * 3}px; margin-bottom: ${fontSize}px;">🤝</div>
+                <h3 style="font-size: ${fontSize * 1.5}px; font-weight: bold; color: ${primaryColor}; margin: 0 0 ${fontSize}px 0;">${config.volunteer_title || defaultConfig.volunteer_title}</h3>
+                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0 0 ${fontSize * 1.5}px 0;">${config.volunteer_description || defaultConfig.volunteer_description}</p>
+                <a href="#pactoForm" onclick="document.getElementById('pactoForm').scrollIntoView({behavior: 'smooth'})" style="display: inline-block; background: ${primaryColor}; color: ${secondaryColor}; padding: ${fontSize * 0.75}px ${fontSize * 1.5}px; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; font-weight: 600; text-decoration: none; transition: background 0.2s;" onmouseover="this.style.background='${accentColor}'" onmouseout="this.style.background='${primaryColor}'">
+                  Quero ser voluntário
+                </a>
+              </div>
+              
+              <div style="background: ${secondaryColor}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;">
+                <div style="font-size: ${fontSize * 3}px; margin-bottom: ${fontSize}px;">🛍️</div>
+                <h3 style="font-size: ${fontSize * 1.5}px; font-weight: bold; color: ${primaryColor}; margin: 0 0 ${fontSize}px 0;">${config.store_title || defaultConfig.store_title}</h3>
+                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0 0 ${fontSize * 1.5}px 0;">${config.store_description || defaultConfig.store_description}</p>
+                <a href="https://www.gprimavera.org.br/loja" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: ${primaryColor}; color: ${secondaryColor}; padding: ${fontSize * 0.75}px ${fontSize * 1.5}px; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; font-weight: 600; text-decoration: none; transition: background 0.2s;" onmouseover="this.style.background='${accentColor}'" onmouseout="this.style.background='${primaryColor}'">
+                  Visitar Loja
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Denounce Channel Section -->
+        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${secondaryColor};">
+          <div style="max-width: 800px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: ${fontSize * 3}px;">
+              <div style="font-size: ${fontSize * 3}px; margin-bottom: ${fontSize}px;">🔒</div>
+              <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${textColor}; margin: 0 0 ${fontSize}px 0;">${config.denounce_title || defaultConfig.denounce_title}</h2>
+              <p style="font-size: ${fontSize * 1.125}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0;">${config.denounce_description || defaultConfig.denounce_description}</p>
+            </div>
+            
+            <form id="denounceForm" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+              <div style="background: #fef3c7; padding: ${fontSize}px; border-radius: ${fontSize * 0.375}px; margin-bottom: ${fontSize * 1.5}px; border-left: 4px solid #f59e0b;">
+                <p style="font-size: ${fontSize * 0.875}px; color: #92400e; margin: 0; line-height: 1.6;">
+                  ⚠️ Esta denúncia é totalmente anônima. Não coletamos dados pessoais identificáveis.
+                </p>
+              </div>
+              
+              <div style="margin-bottom: ${fontSize * 1.5}px;">
+                <label for="denounceType" style="display: block; font-size: ${fontSize * 0.875}px; font-weight: 600; color: ${textColor}; margin-bottom: ${fontSize * 0.5}px;">Tipo de Denúncia *</label>
+                <select id="denounceType" required style="width: 100%; padding: ${fontSize * 0.75}px ${fontSize}px; border: 1px solid #d1d5db; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; box-sizing: border-box;">
+                  <option value="">Selecione o tipo</option>
+                  <option value="violencia">Violência ou maus-tratos</option>
+                  <option value="discriminacao">Discriminação</option>
+                  <option value="irregularidade">Irregularidade administrativa</option>
+                  <option value="outro">Outro</option>
+                </select>
+              </div>
+              
+              <div style="margin-bottom: ${fontSize * 2}px;">
+                <label for="denounceText" style="display: block; font-size: ${fontSize * 0.875}px; font-weight: 600; color: ${textColor}; margin-bottom: ${fontSize * 0.5}px;">Descrição da Denúncia *</label>
+                <textarea id="denounceText" required rows="6" placeholder="Descreva o que aconteceu, quando e onde. Quanto mais detalhes, melhor poderemos agir." style="width: 100%; padding: ${fontSize * 0.75}px ${fontSize}px; border: 1px solid #d1d5db; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; resize: vertical; box-sizing: border-box;"></textarea>
+              </div>
+              
+              <div id="denounceMessage" style="display: none; padding: ${fontSize}px; border-radius: ${fontSize * 0.375}px; margin-bottom: ${fontSize * 1.5}px; text-align: center; font-size: ${fontSize * 0.875}px;"></div>
+              
+              <button type="submit" style="width: 100%; background: ${primaryColor}; color: ${secondaryColor}; padding: ${fontSize}px; border: none; border-radius: ${fontSize * 0.5}px; font-size: ${fontSize * 1.125}px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='${accentColor}'" onmouseout="this.style.background='${primaryColor}'">
+                Enviar Denúncia Anônima
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${cardBg};">
+          <div style="max-width: 1000px; margin: 0 auto;">
+            <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${textColor}; margin: 0 0 ${fontSize * 3}px 0; text-align: center;">${config.testimonial_title || defaultConfig.testimonial_title}</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: ${fontSize * 2}px;">
+              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: relative;">
+                <div style="font-size: ${fontSize * 2.5}px; color: ${primaryColor}; margin-bottom: ${fontSize}px;">❝</div>
+                <p style="font-size: ${fontSize}px; color: ${textColor}; line-height: 1.7; margin: 0 0 ${fontSize * 1.5}px 0; font-style: italic;">${config.testimonial_1 || defaultConfig.testimonial_1}</p>
+                <p style="font-size: ${fontSize * 0.875}px; color: ${primaryColor}; font-weight: 600; margin: 0;">— ${config.testimonial_1_author || defaultConfig.testimonial_1_author}</p>
+              </div>
+              
+              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: relative;">
+                <div style="font-size: ${fontSize * 2.5}px; color: ${primaryColor}; margin-bottom: ${fontSize}px;">❝</div>
+                <p style="font-size: ${fontSize}px; color: ${textColor}; line-height: 1.7; margin: 0 0 ${fontSize * 1.5}px 0; font-style: italic;">${config.testimonial_2 || defaultConfig.testimonial_2}</p>
+                <p style="font-size: ${fontSize * 0.875}px; color: ${primaryColor}; font-weight: 600; margin: 0;">— ${config.testimonial_2_author || defaultConfig.testimonial_2_author}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Donation Section -->
+        <section id="donate" style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${cardBg};">
+          <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${textColor}; margin: 0 0 ${fontSize * 1.5}px 0; text-align: center;">Como Apoiar</h2>
+            <p style="font-size: ${fontSize * 1.125}px; color: ${textColor}; opacity: 0.8; text-align: center; margin: 0 0 ${fontSize * 3}px 0;">Sua contribuição transforma vidas!</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: ${fontSize * 1.5}px;">
+              <div class="card-hover" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">💳</div>
+                <h3 style="font-size: ${fontSize * 1.125}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Doação via PIX</h3>
+                <p style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.8; margin: 0 0 ${fontSize}px 0;">CNPJ: 67.995.969/0001-10</p>
+              </div>
+              
+              <div class="card-hover" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">📄</div>
+                <h3 style="font-size: ${fontSize * 1.125}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Imposto de Renda</h3>
+                <p style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.8; margin: 0 0 ${fontSize}px 0;">Destine parte do seu IR para nossas ações</p>
+              </div>
+              
+              <div class="card-hover" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">🤝</div>
+                <h3 style="font-size: ${fontSize * 1.125}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Seja Voluntário</h3>
+                <p style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.8; margin: 0 0 ${fontSize}px 0;">Contribua com seu tempo e talento</p>
+              </div>
+              
+              <div class="card-hover" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">🏢</div>
+                <h3 style="font-size: ${fontSize * 1.125}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Empresa Parceira</h3>
+                <p style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.8; margin: 0 0 ${fontSize}px 0;">Incentivos fiscais para empresas</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Schedule & Transparency Section -->
+        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${secondaryColor};">
+          <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: ${fontSize * 2}px;">
+              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;">
+                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">🕐</div>
+                <h3 style="font-size: ${fontSize * 1.5}px; font-weight: bold; color: ${primaryColor}; margin: 0 0 ${fontSize * 1.5}px 0;">${config.schedule_title || defaultConfig.schedule_title}</h3>
+                <p style="font-size: ${fontSize * 1.0625}px; color: ${textColor}; font-weight: 600; margin: 0 0 ${fontSize * 0.75}px 0;">${config.schedule_weekdays || defaultConfig.schedule_weekdays}</p>
+                <p style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.7; margin: 0;">${config.schedule_note || defaultConfig.schedule_note}</p>
+              </div>
+              
+              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;">
+                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">📊</div>
+                <h3 style="font-size: ${fontSize * 1.5}px; font-weight: bold; color: ${primaryColor}; margin: 0 0 ${fontSize * 1.5}px 0;">${config.transparency_title || defaultConfig.transparency_title}</h3>
+                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0;">${config.transparency_text || defaultConfig.transparency_text}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${cardBg};">
+          <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${textColor}; margin: 0 0 ${fontSize * 1.5}px 0;">${config.contact_title || defaultConfig.contact_title}</h2>
+            
+            <div style="display: flex; flex-direction: column; gap: ${fontSize}px; align-items: center; margin-top: ${fontSize * 2}px;">
+              <div style="display: flex; align-items: center; gap: ${fontSize * 0.75}px;">
+                <span style="font-size: ${fontSize * 1.5}px;">📍</span>
+                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.9; margin: 0;">${config.address_text || defaultConfig.address_text}</p>
+              </div>
+              
+              <div style="display: flex; align-items: center; gap: ${fontSize * 0.75}px;">
+                <span style="font-size: ${fontSize * 1.5}px;">📞</span>
+                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.9; margin: 0;">${config.phone_text || defaultConfig.phone_text}</p>
+              </div>
+              
+              <div style="display: flex; align-items: center; gap: ${fontSize * 0.75}px;">
+                <span style="font-size: ${fontSize * 1.5}px;">✉️</span>
+                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.9; margin: 0;">contato@gprimavera.org.br</p>
+              </div>
+            </div>
+            
+            <a href="https://www.gprimavera.org.br" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin-top: ${fontSize * 2}px; background: ${primaryColor}; color: ${secondaryColor}; padding: ${fontSize}px ${fontSize * 2}px; border-radius: ${fontSize * 0.5}px; font-size: ${fontSize}px; font-weight: 600; text-decoration: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background 0.2s;" onmouseover="this.style.background='${accentColor}'" onmouseout="this.style.background='${primaryColor}'">
+              Visite Nosso Site
+            </a>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer style="background: ${textColor}; color: ${secondaryColor}; padding: ${fontSize * 2}px ${fontSize * 1.5}px; text-align: center;">
+          <p style="font-size: ${fontSize * 0.875}px; opacity: 0.9; margin: 0;">© 2024 Grupo Primavera | Transformando vidas através da educação</p>
+        </footer>
+      `;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.primary_color || defaultConfig.primary_color,
+            set: (value) => {
+              config.primary_color = value;
+              window.elementSdk.setConfig({ primary_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_color || defaultConfig.secondary_color,
+            set: (value) => {
+              config.secondary_color = value;
+              window.elementSdk.setConfig({ secondary_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              config.accent_color = value;
+              window.elementSdk.setConfig({ accent_color: value });
+            }
+          },
+          {
+            get: () => config.card_background || defaultConfig.card_background,
+            set: (value) => {
+              config.card_background = value;
+              window.elementSdk.setConfig({ card_background: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["org_name", config.org_name || defaultConfig.org_name],
+        ["tagline", config.tagline || defaultConfig.tagline],
+        ["about_title", config.about_title || defaultConfig.about_title],
+        ["about_text", config.about_text || defaultConfig.about_text],
+        ["mission_title", config.mission_title || defaultConfig.mission_title],
+        ["mission_text", config.mission_text || defaultConfig.mission_text],
+        ["vision_title", config.vision_title || defaultConfig.vision_title],
+        ["vision_text", config.vision_text || defaultConfig.vision_text],
+        ["values_title", config.values_title || defaultConfig.values_title],
+        ["impact_intro", config.impact_intro || defaultConfig.impact_intro],
+        ["years_label", config.years_label || defaultConfig.years_label],
+        ["children_served_label", config.children_served_label || defaultConfig.children_served_label],
+        ["daily_attendance_label", config.daily_attendance_label || defaultConfig.daily_attendance_label],
+        ["programs_intro", config.programs_intro || defaultConfig.programs_intro],
+        ["pacto_title", config.pacto_title || defaultConfig.pacto_title],
+        ["pacto_description", config.pacto_description || defaultConfig.pacto_description],
+        ["volunteer_title", config.volunteer_title || defaultConfig.volunteer_title],
+        ["volunteer_description", config.volunteer_description || defaultConfig.volunteer_description],
+        ["store_title", config.store_title || defaultConfig.store_title],
+        ["store_description", config.store_description || defaultConfig.store_description],
+        ["denounce_title", config.denounce_title || defaultConfig.denounce_title],
+        ["denounce_description", config.denounce_description || defaultConfig.denounce_description],
+        ["testimonial_title", config.testimonial_title || defaultConfig.testimonial_title],
+        ["testimonial_1", config.testimonial_1 || defaultConfig.testimonial_1],
+        ["testimonial_1_author", config.testimonial_1_author || defaultConfig.testimonial_1_author],
+        ["testimonial_2", config.testimonial_2 || defaultConfig.testimonial_2],
+        ["testimonial_2_author", config.testimonial_2_author || defaultConfig.testimonial_2_author],
+        ["contact_title", config.contact_title || defaultConfig.contact_title],
+        ["address_text", config.address_text || defaultConfig.address_text],
+        ["phone_text", config.phone_text || defaultConfig.phone_text],
+        ["history_title", config.history_title || defaultConfig.history_title],
+        ["history_text", config.history_text || defaultConfig.history_text],
+        ["team_title", config.team_title || defaultConfig.team_title],
+        ["team_text", config.team_text || defaultConfig.team_text],
+        ["partnerships_title", config.partnerships_title || defaultConfig.partnerships_title],
+        ["partnerships_text", config.partnerships_text || defaultConfig.partnerships_text],
+        ["schedule_title", config.schedule_title || defaultConfig.schedule_title],
+        ["schedule_weekdays", config.schedule_weekdays || defaultConfig.schedule_weekdays],
+        ["schedule_note", config.schedule_note || defaultConfig.schedule_note],
+        ["transparency_title", config.transparency_title || defaultConfig.transparency_title],
+        ["transparency_text", config.transparency_text || defaultConfig.transparency_text]
+      ]);
+    }
+
+    // Form handlers
+    document.addEventListener('DOMContentLoaded', function() {
+      const pactoForm = document.getElementById('pactoForm');
+      if (pactoForm) {
+        pactoForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const messageDiv = document.getElementById('pactoMessage');
+          const submitButton = pactoForm.querySelector('button[type="submit"]');
+          
+          submitButton.disabled = true;
+          submitButton.textContent = 'Enviando...';
+          
+          setTimeout(() => {
+            messageDiv.style.display = 'block';
+            messageDiv.style.background = '#d1fae5';
+            messageDiv.style.color = '#065f46';
+            messageDiv.textContent = '✓ Inscrição enviada com sucesso! Entraremos em contato em breve.';
+            
+            pactoForm.reset();
+            submitButton.disabled = false;
+            submitButton.textContent = 'Enviar Inscrição';
+            
+            setTimeout(() => {
+              messageDiv.style.display = 'none';
+            }, 5000);
+          }, 1500);
+        });
+      }
+      
+      const denounceForm = document.getElementById('denounceForm');
+      if (denounceForm) {
+        denounceForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const messageDiv = document.getElementById('denounceMessage');
+          const submitButton = denounceForm.querySelector('button[type="submit"]');
+          
+          submitButton.disabled = true;
+          submitButton.textContent = 'Enviando...';
+          
+          setTimeout(() => {
+            messageDiv.style.display = 'block';
+            messageDiv.style.background = '#d1fae5';
+            messageDiv.style.color = '#065f46';
+            messageDiv.textContent = '✓ Denúncia registrada anonimamente. Agradecemos sua coragem.';
+            
+            denounceForm.reset();
+            submitButton.disabled = false;
+            submitButton.textContent = 'Enviar Denúncia Anônima';
+            
+            setTimeout(() => {
+              messageDiv.style.display = 'none';
+            }, 5000);
+          }, 1500);
+        });
+      }
+    });
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a5d802862fda45a',t:'MTc2NDM3MTAyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
