@@ -106,33 +106,6 @@ Cada protótipo inclui observações UX:
 - Arquivo principal: `grupo-primavera.html` (protótipo auto‑contido)
 - Observação: para persistência e funcionalidades administrativas, é necessária implementação de backend (API + banco de dados). Atualmente o protótipo é front-end e demonstrativo.
 
----
-
-## ▶️ Executar localmente / Como testar
-
-1. Baixe ou clone o repositório contendo `grupo-primavera.html`.
-2. Abra o arquivo `grupo-primavera.html` em um navegador moderno (Chrome / Firefox / Edge).
-3. Navegue nas seções: use o menu ou âncoras; clique nos jogos e modais para testar interatividade.
-4. Para desenvolvimento local com servidor estático (opcional):
-   - Python: `python -m http.server 8000` → abra http://localhost:8000/grupo-primavera.html
-
----
-
-## ✅ Recomendações para evolução (roadmap curto)
-
-Prioridade alta:
-- Implementar formulário seguro para voluntariado (back-end) e salvar candidaturas.
-- Implementar mecanismo de doação integrado (ou redirecionar para gateway confiável) e registro de comprovantes.
-- Criar painel administrativo para triagem de denúncias/contatos/voluntariado.
-
-Prioridade média:
-- Migrar estilos para um design system (tokens + componentes).
-- Criar protótipos de alta fidelidade no Figma e rodar testes de usabilidade.
-- Implementar acessibilidade (WCAG 2.1 AA).
-
-Prioridade baixa:
-- Internacionalização (pt‑BR + en).
-- Automação de testes end‑to‑end para fluxos críticos.
 
 ---
 
