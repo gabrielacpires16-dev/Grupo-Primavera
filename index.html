@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grupo Primavera</title>
+  <title>Grupo Primavera - Transformando Vidas</title>
   <script src="/_sdk/element_sdk.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -12,565 +12,613 @@
     }
     
     @keyframes float {
-      0%, 100% { transform: translateY(0px); }
+      0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
     
-    @keyframes pulse-heart {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     
-    .float-animation {
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      10%, 30% { transform: scale(0.9); }
+      20%, 40%, 50%, 60%, 70%, 80% { transform: scale(1.1); }
+    }
+    
+    @keyframes floatingHeart {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+    
+    .floating-heart {
+      position: fixed;
+      font-size: 30px;
+      pointer-events: none;
+      z-index: 9999;
+      animation: floatingHeart 4s linear forwards;
+    }
+    
+    .heart-beat {
+      animation: heartBeat 1.3s ease-in-out infinite;
+    }
+    
+    .animate-float {
       animation: float 3s ease-in-out infinite;
     }
     
-    .pulse-heart {
-      animation: pulse-heart 1.5s ease-in-out infinite;
+    .animate-fadeInUp {
+      animation: fadeInUp 0.6s ease-out forwards;
     }
     
-    .gradient-red {
-      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
     
     .card-hover {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: all 0.3s ease;
     }
     
     .card-hover:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .nav-fixed {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .section-padding {
+      padding: 5% 6%;
+    }
+    
+    .stat-card {
+      background: white;
+      border-radius: 16px;
+      padding: 8% 6%;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
   </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
- <body class="w-full min-h-full">
-  <div id="app" class="w-full min-h-full"></div>
+ <body class="min-h-full"><!-- Navigation -->
+  <nav class="nav-fixed">
+   <div class="max-w-7xl mx-auto px-6 py-4">
+    <div class="flex justify-between items-center">
+     <div class="flex items-center gap-3">
+      <svg width="40" height="40" viewbox="0 0 40 40" fill="none"><path d="M20 35C20 35 5 25 5 15C5 10 8 7 12 7C15 7 18 9 20 12C22 9 25 7 28 7C32 7 35 10 35 15C35 25 20 35 20 35Z" fill="#dc2626" />
+      </svg><span id="nav-org-name" class="text-xl font-bold">Grupo Primavera</span>
+     </div>
+     <div class="hidden md:flex gap-6"><a href="#sobre" class="hover:opacity-70 transition-opacity">Sobre</a> <a href="#impacto" class="hover:opacity-70 transition-opacity">Impacto</a> <a href="#programas" class="hover:opacity-70 transition-opacity">Programas</a> <a href="#joguinhos" class="hover:opacity-70 transition-opacity">Joguinhos</a> <a href="#ajudar" class="hover:opacity-70 transition-opacity">Como Ajudar</a> <a href="#contato" class="hover:opacity-70 transition-opacity">Contato</a>
+     </div><button id="menu-btn" class="md:hidden p-2">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" />
+      </svg></button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 flex flex-col gap-3"><a href="#sobre" class="hover:opacity-70 transition-opacity">Sobre</a> <a href="#impacto" class="hover:opacity-70 transition-opacity">Impacto</a> <a href="#programas" class="hover:opacity-70 transition-opacity">Programas</a> <a href="#joguinhos" class="hover:opacity-70 transition-opacity">Joguinhos</a> <a href="#ajudar" class="hover:opacity-70 transition-opacity">Como Ajudar</a> <a href="#contato" class="hover:opacity-70 transition-opacity">Contato</a>
+    </div>
+   </div>
+  </nav><!-- Hero Section -->
+  <section class="gradient-bg section-padding" style="margin-top: 80px;">
+   <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+     <div class="animate-fadeInUp">
+      <h1 id="hero-title" class="text-5xl md:text-6xl font-bold mb-6" style="line-height: 1.2;">Transformando vidas através da educação</h1>
+      <p id="hero-subtitle" class="text-xl mb-8 opacity-90">Atendendo crianças e jovens de 6 a 18 anos em Campinas</p>
+      <div class="flex flex-wrap gap-4"><button id="cta-donate" class="px-8 py-4 rounded-full font-semibold text-lg transition-all hover:scale-105">Faça sua Doação</button> <button id="cta-learn" class="px-8 py-4 rounded-full font-semibold text-lg border-2 transition-all hover:scale-105">Conheça Nosso Trabalho</button>
+      </div>
+     </div>
+     <div class="animate-float hidden md:block">
+      <svg width="100%" height="400" viewbox="0 0 400 400" fill="none"><!-- Coração grande central --> <path d="M200 320C200 320 100 240 100 160C100 120 120 100 150 100C170 100 190 115 200 140C210 115 230 100 250 100C280 100 300 120 300 160C300 240 200 320 200 320Z" fill="white" opacity="0.9" /> <!-- Coração pequeno esquerda --> <path d="M120 120C120 120 80 100 80 70C80 55 87 48 97 48C103 48 109 52 120 62C121 52 127 48 133 48C143 48 150 55 150 70C150 100 120 120 120 120Z" fill="#fca5a5" opacity="0.8" /> <!-- Coração pequeno direita --> <path d="M280 300C280 300 250 280 250 260C250 250 255 245 262 245C267 245 272 248 280 255C281 248 286 245 291 245C298 245 303 250 303 260C303 280 280 300 280 300Z" fill="#fca5a5" opacity="0.8" /> <!-- Detalhes --> <circle cx="180" cy="160" r="6" fill="#dc2626" /> <circle cx="220" cy="160" r="6" fill="#dc2626" /> <path d="M185 190Q200 200 215 190" stroke="#dc2626" stroke-width="3" stroke-linecap="round" fill="none" />
+      </svg>
+     </div>
+    </div>
+   </div>
+  </section><!-- About Section -->
+  <section id="sobre" class="section-padding">
+   <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+     <h2 id="about-title" class="text-4xl font-bold mb-6">Sobre o Grupo Primavera</h2>
+     <div class="w-24 h-1 mx-auto mb-8"></div>
+    </div>
+    <div class="max-w-4xl mx-auto">
+     <div class="rounded-2xl p-8 md:p-12 shadow-lg">
+      <p id="about-text" class="text-lg leading-relaxed mb-6">O Grupo Primavera é uma Organização da Sociedade Civil que recebe crianças, adolescentes e jovens de 6 a 18 anos do entorno do Jardim São Marcos, Campinas (SP), para atendê-las em programas de educação complementar, cultural e profissional. Fundada em 1981, a entidade atende hoje cerca de 484 meninas e meninos, além de seus familiares.</p>
+      <p class="text-lg leading-relaxed opacity-80">Classificada como Serviço de Convivência e Fortalecimento de Vínculos, nossa missão é proporcionar um ambiente seguro e acolhedor onde crianças e jovens possam desenvolver todo seu potencial através da educação, cultura e preparação profissional.</p>
+     </div>
+    </div>
+   </div>
+  </section><!-- Impact Section -->
+  <section id="impacto" class="section-padding">
+   <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+     <h2 id="impact-title" class="text-4xl font-bold mb-6">Nosso Impacto</h2>
+     <div class="w-24 h-1 mx-auto mb-8"></div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+     <div class="stat-card card-hover">
+      <div class="text-5xl font-bold mb-3" id="stat1-number">
+       43
+      </div>
+      <div class="opacity-70" id="stat1-label">
+       anos de atividades
+      </div>
+     </div>
+     <div class="stat-card card-hover">
+      <div class="text-5xl font-bold mb-3" id="stat2-number">
+       15.000+
+      </div>
+      <div class="opacity-70" id="stat2-label">
+       vidas transformadas
+      </div>
+     </div>
+     <div class="stat-card card-hover">
+      <div class="text-5xl font-bold mb-3" id="stat3-number">
+       484
+      </div>
+      <div class="opacity-70" id="stat3-label">
+       atendidos diariamente
+      </div>
+     </div>
+     <div class="stat-card card-hover">
+      <div class="text-5xl font-bold mb-3" id="stat4-number">
+       95%
+      </div>
+      <div class="opacity-70" id="stat4-label">
+       aprovação em vestibulinhos
+      </div>
+     </div>
+    </div>
+   </div>
+  </section><!-- Programs Section -->
+  <section id="programas" class="section-padding">
+   <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+     <h2 id="programs-title" class="text-4xl font-bold mb-6">Nossos Programas</h2>
+     <div class="w-24 h-1 mx-auto mb-8"></div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+     <div class="rounded-2xl p-8 card-hover">
+      <div class="w-16 h-16 rounded-full flex items-center justify-center mb-6">
+       <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+       </svg>
+      </div>
+      <h3 id="program1-title" class="text-2xl font-bold mb-4">Educação Complementar</h3>
+      <p id="program1-desc" class="opacity-70 leading-relaxed">Reforço escolar e atividades pedagógicas que complementam o ensino formal, garantindo melhor desempenho acadêmico.</p>
+     </div>
+     <div class="rounded-2xl p-8 card-hover">
+      <div class="w-16 h-16 rounded-full flex items-center justify-center mb-6">
+       <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+       </svg>
+      </div>
+      <h3 id="program2-title" class="text-2xl font-bold mb-4">Cultura e Arte</h3>
+      <p id="program2-desc" class="opacity-70 leading-relaxed">Música, teatro e expressão artística que desenvolvem criatividade, autoestima e habilidades socioemocionais.</p>
+     </div>
+     <div class="rounded-2xl p-8 card-hover">
+      <div class="w-16 h-16 rounded-full flex items-center justify-center mb-6">
+       <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+       </svg>
+      </div>
+      <h3 id="program3-title" class="text-2xl font-bold mb-4">Formação Profissional</h3>
+      <p id="program3-desc" class="opacity-70 leading-relaxed">Capacitação para o mercado de trabalho através do programa Jovem Aprendiz e cursos profissionalizantes.</p>
+     </div>
+    </div>
+   </div>
+  </section><!-- Games Section -->
+  <section id="joguinhos" class="section-padding">
+   <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+     <h2 id="games-title" class="text-4xl font-bold mb-6">Joguinhos Educativos</h2>
+     <div class="w-24 h-1 mx-auto mb-8"></div>
+     <p class="text-lg opacity-70 mb-4">Aprenda brincando sobre o trabalho do Grupo Primavera!</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8"><!-- Memory Game -->
+     <div class="rounded-2xl p-8 card-hover">
+      <div class="flex items-center justify-center mb-6">
+       <div class="text-6xl animate-pulse">
+        ❤️
+       </div>
+      </div>
+      <h3 id="game1-title" class="text-2xl font-bold mb-4 text-center">Jogo da Memória</h3>
+      <p class="opacity-70 text-center mb-6">Combine os pares e aprenda sobre nossos valores!</p><button onclick="startMemoryGame()" class="w-full px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105">Jogar Agora</button>
+     </div><!-- Quiz Game -->
+     <div class="rounded-2xl p-8 card-hover">
+      <div class="flex items-center justify-center mb-6">
+       <div class="text-6xl animate-bounce">
+        🎯
+       </div>
+      </div>
+      <h3 id="game2-title" class="text-2xl font-bold mb-4 text-center">Quiz Primavera</h3>
+      <p class="opacity-70 text-center mb-6">Teste seus conhecimentos sobre a ONG!</p><button onclick="startQuizGame()" class="w-full px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105">Jogar Agora</button>
+     </div><!-- Heart Collector Game -->
+     <div class="rounded-2xl p-8 card-hover">
+      <div class="flex items-center justify-center mb-6">
+       <div class="text-6xl animate-float">
+        💕
+       </div>
+      </div>
+      <h3 id="game3-title" class="text-2xl font-bold mb-4 text-center">Coletor de Corações</h3>
+      <p class="opacity-70 text-center mb-6">Colete corações e espalhe amor!</p><button onclick="startHeartGame()" class="w-full px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105">Jogar Agora</button>
+     </div>
+    </div>
+   </div>
+  </section><!-- Game Modal -->
+  <div id="game-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center" style="background: rgba(0,0,0,0.8);">
+   <div class="relative w-full max-w-4xl mx-4 rounded-3xl p-8 max-h-[90%] overflow-y-auto"><button onclick="closeGameModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl transition-all hover:scale-110">✕</button>
+    <div id="game-content"></div>
+   </div>
+  </div><!-- Ways to Help Section -->
+  <section id="ajudar" class="section-padding">
+   <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+     <h2 id="ways-title" class="text-4xl font-bold mb-6">Como Você Pode Ajudar</h2>
+     <div class="w-24 h-1 mx-auto mb-8"></div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+     <div class="rounded-xl p-6 text-center card-hover">
+      <div class="text-4xl mb-4">
+       💳
+      </div>
+      <h3 id="way1-title" class="text-xl font-bold mb-3">Doação Via PIX</h3>
+      <p class="text-sm opacity-70">CNPJ: 67.995.969/0001-10</p>
+     </div>
+     <div class="rounded-xl p-6 text-center card-hover">
+      <div class="text-4xl mb-4">
+       🤝
+      </div>
+      <h3 id="way2-title" class="text-xl font-bold mb-3">Seja Voluntário</h3>
+      <p class="text-sm opacity-70">Doe seu tempo e conhecimento</p>
+     </div>
+     <div class="rounded-xl p-6 text-center card-hover">
+      <div class="text-4xl mb-4">
+       🧾
+      </div>
+      <h3 id="way3-title" class="text-xl font-bold mb-3">Nota Fiscal Paulista</h3>
+      <p class="text-sm opacity-70">Doe seus créditos</p>
+     </div>
+     <div class="rounded-xl p-6 text-center card-hover">
+      <div class="text-4xl mb-4">
+       📋
+      </div>
+      <h3 id="way4-title" class="text-xl font-bold mb-3">Imposto de Renda</h3>
+      <p class="text-sm opacity-70">Destine parte do seu IR</p>
+     </div>
+    </div>
+   </div>
+  </section><!-- Contact Section -->
+  <section id="contato" class="section-padding">
+   <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+     <h2 id="contact-title" class="text-4xl font-bold mb-6">Entre em Contato</h2>
+     <div class="w-24 h-1 mx-auto mb-8"></div>
+    </div>
+    <div class="max-w-2xl mx-auto rounded-2xl p-8 md:p-12 shadow-lg">
+     <div class="space-y-6">
+      <div class="flex items-start gap-4">
+       <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /> <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+       </div>
+       <div>
+        <h3 class="font-semibold mb-1">Endereço</h3>
+        <p id="contact-address" class="opacity-70">R. Luís Aristeo Nucci, 30<br>
+         Jardim São Marcos, Campinas - SP<br>
+         CEP 13082-210</p>
+       </div>
+      </div>
+      <div class="flex items-start gap-4">
+       <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+        </svg>
+       </div>
+       <div>
+        <h3 class="font-semibold mb-1">Telefone</h3>
+        <p id="contact-phone" class="opacity-70">(19) 3746-7990</p>
+       </div>
+      </div>
+      <div class="flex items-start gap-4">
+       <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+       </div>
+       <div>
+        <h3 class="font-semibold mb-1">Email</h3>
+        <p id="contact-email" class="opacity-70">contato@gprimavera.org.br</p>
+       </div>
+      </div>
+     </div>
+     <div class="mt-8 flex justify-center gap-4"><a href="https://www.facebook.com/grupoprimavera" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110">
+       <svg width="24" height="24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+       </svg></a> <a href="https://www.instagram.com/grupoprimavera" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110">
+       <svg width="24" height="24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+       </svg></a> <a href="https://www.youtube.com/@grupoprimavera" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110">
+       <svg width="24" height="24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+       </svg></a>
+     </div>
+    </div>
+   </div>
+  </section><!-- Footer -->
+  <footer class="section-padding">
+   <div class="max-w-7xl mx-auto text-center">
+    <div class="flex items-center justify-center gap-3 mb-4">
+     <svg width="32" height="32" viewbox="0 0 40 40" fill="none"><path d="M20 35C20 35 5 25 5 15C5 10 8 7 12 7C15 7 18 9 20 12C22 9 25 7 28 7C32 7 35 10 35 15C35 25 20 35 20 35Z" fill="#dc2626" />
+     </svg><span class="text-xl font-bold">Grupo Primavera</span>
+    </div>
+    <p id="footer-text" class="opacity-70 mb-4">Transformando vidas desde 1981</p>
+    <p class="text-sm opacity-50">© 2024 Grupo Primavera. Todos os direitos reservados.</p>
+   </div>
+  </footer>
   <script>
     const defaultConfig = {
-      primary_color: "#dc2626",
-      secondary_color: "#ffffff",
-      text_color: "#1f2937",
-      accent_color: "#991b1b",
-      card_background: "#f9fafb",
+      background_color: "#fee2e2",
+      surface_color: "#ffffff",
+      text_color: "#7f1d1d",
+      primary_action_color: "#dc2626",
+      secondary_action_color: "#991b1b",
       font_family: "system-ui",
       font_size: 16,
       org_name: "Grupo Primavera",
-      tagline: "Transformando vidas desde 1981",
+      hero_title: "Transformando vidas através da educação",
+      hero_subtitle: "Atendendo crianças e jovens de 6 a 18 anos em Campinas",
+      cta_donate: "Faça sua Doação",
+      cta_learn: "Conheça Nosso Trabalho",
       about_title: "Sobre o Grupo Primavera",
-      about_text: "Uma Organização da Sociedade Civil que recebe crianças, adolescentes e jovens de 6 a 18 anos do entorno do Jardim São Marcos, Campinas (SP), para atendê-las em programas de educação complementar, cultural e profissional. Classificada como Serviço de Convivência e Fortalecimento de Vínculos, a entidade foi fundada em 1981 e atende hoje cerca de 484 meninas e meninos, além de seus familiares.",
-      mission_title: "Nossa Missão",
-      mission_text: "Promover o desenvolvimento integral de crianças, adolescentes e jovens em situação de vulnerabilidade social, através de programas educacionais, culturais e profissionalizantes que fortaleçam vínculos familiares e comunitários.",
-      vision_title: "Nossa Visão",
-      vision_text: "Ser referência em educação complementar e desenvolvimento social, transformando realidades e construindo um futuro de oportunidades para jovens da região de Campinas.",
-      values_title: "Nossos Valores",
-      history_title: "Nossa História",
-      history_text: "Fundado em 1981 por um grupo de moradores do Jardim São Marcos em Campinas, o Grupo Primavera nasceu da necessidade de oferecer um espaço seguro e educativo para crianças e adolescentes da comunidade. Ao longo de mais de 40 anos, expandimos nossas atividades e hoje somos uma referência em programas socioeducativos na região.",
-      team_title: "Nossa Equipe",
-      team_text: "Contamos com uma equipe multidisciplinar dedicada, composta por educadores, psicólogos, assistentes sociais, arte-educadores e voluntários comprometidos com a transformação social. Todos trabalham juntos para garantir um atendimento de qualidade e humanizado.",
-      partnerships_title: "Parcerias e Certificações",
-      partnerships_text: "Somos certificados como Organização da Sociedade Civil de Interesse Público (OSCIP) e mantemos parcerias com empresas, universidades e poder público. Possuímos certificações de transparência e prestação de contas, garantindo a confiança de nossos apoiadores.",
-      programs_intro: "O Grupo Primavera oferece uma programação completa que atende crianças e jovens em diferentes faixas etárias, sempre com foco no desenvolvimento integral e na formação de cidadãos conscientes.",
-      impact_intro: "Em mais de 4 décadas de trabalho dedicado, o Grupo Primavera já transformou milhares de vidas:",
-      testimonial_title: "Depoimentos",
-      testimonial_1: "O Grupo Primavera mudou a vida da minha família. Meu filho encontrou aqui um lugar seguro para aprender e crescer.",
-      testimonial_1_author: "Maria Silva, mãe de aluno",
-      testimonial_2: "Graças ao programa Jovem Aprendiz, consegui meu primeiro emprego e hoje sou exemplo na minha comunidade.",
-      testimonial_2_author: "João Santos, ex-aluno",
-      years_label: "Anos de atividades",
-      children_served_label: "Crianças atendidas em 38 anos",
-      daily_attendance_label: "Atendimentos diários",
-      pacto_title: "Processo Seletivo PACTO 2026",
-      pacto_description: "Inscreva-se no nosso processo seletivo e faça parte da transformação!",
-      volunteer_title: "Seja Voluntário",
-      volunteer_description: "Contribua com seu tempo, talento e faça a diferença na vida de crianças e jovens.",
-      store_title: "Nossa Loja Solidária",
-      store_description: "Adquira produtos e ajude a manter nossos programas sociais",
-      denounce_title: "Canal de Denúncias",
-      denounce_description: "Denúncias anônimas e seguras. Seu relato é importante para garantir a segurança de todos.",
-      schedule_title: "Horários de Funcionamento",
-      schedule_weekdays: "Segunda a Sexta: 7h às 17h",
-      schedule_note: "Horários podem variar conforme atividade",
-      transparency_title: "Transparência",
-      transparency_text: "Publicamos relatórios anuais de atividades e prestação de contas. Acesse nosso site para conhecer nossos resultados e como utilizamos os recursos.",
+      about_text: "O Grupo Primavera é uma Organização da Sociedade Civil que recebe crianças, adolescentes e jovens de 6 a 18 anos do entorno do Jardim São Marcos, Campinas (SP), para atendê-las em programas de educação complementar, cultural e profissional. Fundada em 1981, a entidade atende hoje cerca de 484 meninas e meninos, além de seus familiares.",
+      impact_title: "Nosso Impacto",
+      stat1_number: "43",
+      stat1_label: "anos de atividades",
+      stat2_number: "15.000+",
+      stat2_label: "vidas transformadas",
+      stat3_number: "484",
+      stat3_label: "atendidos diariamente",
+      stat4_number: "95%",
+      stat4_label: "aprovação em vestibulinhos",
+      programs_title: "Nossos Programas",
+      program1_title: "Educação Complementar",
+      program1_desc: "Reforço escolar e atividades pedagógicas que complementam o ensino formal, garantindo melhor desempenho acadêmico.",
+      program2_title: "Cultura e Arte",
+      program2_desc: "Música, teatro e expressão artística que desenvolvem criatividade, autoestima e habilidades socioemocionais.",
+      program3_title: "Formação Profissional",
+      program3_desc: "Capacitação para o mercado de trabalho através do programa Jovem Aprendiz e cursos profissionalizantes.",
+      ways_title: "Como Você Pode Ajudar",
+      way1_title: "Doação Via PIX",
+      way2_title: "Seja Voluntário",
+      way3_title: "Nota Fiscal Paulista",
+      way4_title: "Imposto de Renda",
       contact_title: "Entre em Contato",
-      address_text: "R. Luís Aristeo Nucci, 30 - Jardim São Marcos, Campinas - SP",
-      phone_text: "(19) 3746-7990"
+      contact_address: "R. Luís Aristeo Nucci, 30\nJardim São Marcos, Campinas - SP\nCEP 13082-210",
+      contact_phone: "(19) 3746-7990",
+      contact_email: "contato@gprimavera.org.br",
+      footer_text: "Transformando vidas desde 1981"
     };
 
     async function onConfigChange(config) {
-      const app = document.getElementById('app');
-      const primaryColor = config.primary_color || defaultConfig.primary_color;
-      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseSize = config.font_size || defaultConfig.font_size;
+      const baseFontStack = 'system-ui, -apple-system, sans-serif';
+      
+      // Apply colors
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
       const textColor = config.text_color || defaultConfig.text_color;
-      const accentColor = config.accent_color || defaultConfig.accent_color;
-      const cardBg = config.card_background || defaultConfig.card_background;
-      const fontFamily = config.font_family || defaultConfig.font_family;
-      const fontSize = config.font_size || defaultConfig.font_size;
+      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
       
-      app.style.fontFamily = `${fontFamily}, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`;
-      app.style.backgroundColor = secondaryColor;
-      app.style.color = textColor;
+      document.body.style.backgroundColor = bgColor;
+      document.body.style.color = textColor;
       
-      app.innerHTML = `
-        <!-- Header -->
-        <header style="background: ${primaryColor}; padding: ${fontSize * 2}px ${fontSize * 1.5}px;">
-          <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: ${fontSize}px;">
-            <div style="display: flex; align-items: center; gap: ${fontSize}px;">
-              <svg class="pulse-heart" width="${fontSize * 3}" height="${fontSize * 3}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="${secondaryColor}"/>
-              </svg>
-              <div>
-                <h1 style="font-size: ${fontSize * 1.75}px; font-weight: bold; color: ${secondaryColor}; margin: 0;">${config.org_name || defaultConfig.org_name}</h1>
-                <p style="font-size: ${fontSize * 0.875}px; color: ${secondaryColor}; opacity: 0.9; margin: ${fontSize * 0.25}px 0 0 0;">${config.tagline || defaultConfig.tagline}</p>
-              </div>
-            </div>
-            <div style="display: flex; gap: ${fontSize * 0.75}px;">
-              <a href="https://www.facebook.com/grupoprimavera" target="_blank" rel="noopener noreferrer" style="width: ${fontSize * 2.5}px; height: ${fontSize * 2.5}px; background: ${secondaryColor}; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none;">
-                <span style="color: ${primaryColor}; font-size: ${fontSize * 1.25}px;">f</span>
-              </a>
-              <a href="https://www.instagram.com/grupoprimavera" target="_blank" rel="noopener noreferrer" style="width: ${fontSize * 2.5}px; height: ${fontSize * 2.5}px; background: ${secondaryColor}; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none;">
-                <span style="color: ${primaryColor}; font-size: ${fontSize * 1.25}px;">📷</span>
-              </a>
-            </div>
-          </div>
-        </header>
-
-        <!-- Hero Section -->
-        <section style="background: linear-gradient(135deg, ${primaryColor} 0%, ${accentColor} 100%); padding: ${fontSize * 4}px ${fontSize * 1.5}px; text-align: center;">
-          <div style="max-width: 800px; margin: 0 auto;">
-            <div class="float-animation" style="font-size: ${fontSize * 4}px; margin-bottom: ${fontSize * 1.5}px;">❤️</div>
-            <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${secondaryColor}; margin: 0 0 ${fontSize}px 0;">Abrace essa causa</h2>
-            <p style="font-size: ${fontSize * 1.125}px; color: ${secondaryColor}; opacity: 0.95; line-height: 1.6; margin: 0 0 ${fontSize * 2}px 0;">
-              Juntos podemos transformar o futuro de crianças e jovens através da educação e cultura
-            </p>
-            <button onclick="document.getElementById('donate').scrollIntoView({behavior: 'smooth'})" style="background: ${secondaryColor}; color: ${primaryColor}; padding: ${fontSize}px ${fontSize * 2}px; border-radius: ${fontSize * 0.5}px; font-size: ${fontSize * 1.125}px; font-weight: 600; border: none; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;">
-              Doe Agora
-            </button>
-          </div>
-        </section>
-
-        <!-- About Section -->
-        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${secondaryColor};">
-          <div style="max-width: 1200px; margin: 0 auto;">
-            <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${textColor}; margin: 0 0 ${fontSize * 1.5}px 0; text-align: center;">${config.about_title || defaultConfig.about_title}</h2>
-            <p style="font-size: ${fontSize * 1.125}px; color: ${textColor}; line-height: 1.8; text-align: center; max-width: 900px; margin: 0 auto ${fontSize * 2}px auto;">
-              ${config.about_text || defaultConfig.about_text}
-            </p>
-            
-            <!-- Mission, Vision, Values -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: ${fontSize * 2}px; margin-top: ${fontSize * 3}px;">
-              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; border-left: 4px solid ${primaryColor};">
-                <h3 style="font-size: ${fontSize * 1.375}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize}px 0;">${config.mission_title || defaultConfig.mission_title}</h3>
-                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0;">${config.mission_text || defaultConfig.mission_text}</p>
-              </div>
-              
-              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; border-left: 4px solid ${primaryColor};">
-                <h3 style="font-size: ${fontSize * 1.375}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize}px 0;">${config.vision_title || defaultConfig.vision_title}</h3>
-                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0;">${config.vision_text || defaultConfig.vision_text}</p>
-              </div>
-              
-              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; border-left: 4px solid ${primaryColor};">
-                <h3 style="font-size: ${fontSize * 1.375}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize}px 0;">${config.values_title || defaultConfig.values_title}</h3>
-                <ul style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0; padding-left: ${fontSize * 1.5}px;">
-                  <li style="margin-bottom: ${fontSize * 0.5}px;">Respeito e dignidade</li>
-                  <li style="margin-bottom: ${fontSize * 0.5}px;">Compromisso com a educação</li>
-                  <li style="margin-bottom: ${fontSize * 0.5}px;">Transparência e ética</li>
-                  <li>Desenvolvimento integral</li>
-                </ul>
-              </div>
-            </div>
-            
-            <!-- History Section -->
-            <div style="margin-top: ${fontSize * 4}px; background: ${cardBg}; padding: ${fontSize * 2.5}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-              <h3 style="font-size: ${fontSize * 1.5}px; font-weight: bold; color: ${primaryColor}; margin: 0 0 ${fontSize * 1.5}px 0; text-align: center;">${config.history_title || defaultConfig.history_title}</h3>
-              <p style="font-size: ${fontSize * 1.0625}px; color: ${textColor}; opacity: 0.9; line-height: 1.8; margin: 0; text-align: center; max-width: 900px; margin: 0 auto;">${config.history_text || defaultConfig.history_text}</p>
-            </div>
-            
-            <!-- Team and Partnerships -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: ${fontSize * 2}px; margin-top: ${fontSize * 3}px;">
-              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                <div style="text-align: center; font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">👥</div>
-                <h3 style="font-size: ${fontSize * 1.375}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize}px 0; text-align: center;">${config.team_title || defaultConfig.team_title}</h3>
-                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0; text-align: center;">${config.team_text || defaultConfig.team_text}</p>
-              </div>
-              
-              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                <div style="text-align: center; font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">🏆</div>
-                <h3 style="font-size: ${fontSize * 1.375}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize}px 0; text-align: center;">${config.partnerships_title || defaultConfig.partnerships_title}</h3>
-                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0; text-align: center;">${config.partnerships_text || defaultConfig.partnerships_text}</p>
-              </div>
-            </div>
-            
-            <!-- Impact Stats -->
-            <p style="font-size: ${fontSize * 1.125}px; color: ${textColor}; opacity: 0.9; line-height: 1.7; text-align: center; max-width: 800px; margin: ${fontSize * 4}px auto ${fontSize * 2}px auto;">
-              ${config.impact_intro || defaultConfig.impact_intro}
-            </p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: ${fontSize * 1.5}px; margin-top: ${fontSize * 1.5}px;">
-              <div class="card-hover" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                <div style="font-size: ${fontSize * 3}px; font-weight: bold; color: ${primaryColor}; margin-bottom: ${fontSize * 0.5}px;">43</div>
-                <div style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.8;">${config.years_label || defaultConfig.years_label}</div>
-              </div>
-              <div class="card-hover" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                <div style="font-size: ${fontSize * 3}px; font-weight: bold; color: ${primaryColor}; margin-bottom: ${fontSize * 0.5}px;">12.000+</div>
-                <div style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.8;">${config.children_served_label || defaultConfig.children_served_label}</div>
-              </div>
-              <div class="card-hover" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                <div style="font-size: ${fontSize * 3}px; font-weight: bold; color: ${primaryColor}; margin-bottom: ${fontSize * 0.5}px;">484</div>
-                <div style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.8;">${config.daily_attendance_label || defaultConfig.daily_attendance_label}</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Activities Section -->
-        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${cardBg};">
-          <div style="max-width: 1200px; margin: 0 auto;">
-            <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${textColor}; margin: 0 0 ${fontSize}px 0; text-align: center;">Nossas Atividades</h2>
-            <p style="font-size: ${fontSize * 1.125}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; text-align: center; max-width: 900px; margin: 0 auto ${fontSize * 3}px auto;">
-              ${config.programs_intro || defaultConfig.programs_intro}
-            </p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: ${fontSize * 1.5}px;">
-              <div class="card-hover" style="background: ${secondaryColor}; padding: ${fontSize * 1.5}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">📚</div>
-                <h3 style="font-size: ${fontSize * 1.25}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Educação Complementar</h3>
-                <p style="font-size: ${fontSize * 0.9375}px; color: ${textColor}; opacity: 0.8; line-height: 1.6; margin: 0 0 ${fontSize * 0.75}px 0;">Reforço escolar e atividades pedagógicas que complementam o ensino formal.</p>
-                <ul style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.75; line-height: 1.5; margin: 0; padding-left: ${fontSize * 1.25}px;">
-                  <li>Apoio às lições de casa</li>
-                  <li>Oficinas de leitura e escrita</li>
-                  <li>Matemática lúdica</li>
-                  <li>Faixa etária: 6 a 14 anos</li>
-                </ul>
-              </div>
-              
-              <div class="card-hover" style="background: ${secondaryColor}; padding: ${fontSize * 1.5}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">🎨</div>
-                <h3 style="font-size: ${fontSize * 1.25}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Atividades Culturais</h3>
-                <p style="font-size: ${fontSize * 0.9375}px; color: ${textColor}; opacity: 0.8; line-height: 1.6; margin: 0 0 ${fontSize * 0.75}px 0;">Arte, música, dança e teatro para desenvolvimento da criatividade.</p>
-                <ul style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.75; line-height: 1.5; margin: 0; padding-left: ${fontSize * 1.25}px;">
-                  <li>Oficinas de artes plásticas</li>
-                  <li>Teatro e expressão corporal</li>
-                  <li>Música e instrumentos</li>
-                  <li>Dança e coreografia</li>
-                </ul>
-              </div>
-              
-              <div class="card-hover" style="background: ${secondaryColor}; padding: ${fontSize * 1.5}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">💼</div>
-                <h3 style="font-size: ${fontSize * 1.25}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Capacitação Profissional</h3>
-                <p style="font-size: ${fontSize * 0.9375}px; color: ${textColor}; opacity: 0.8; line-height: 1.6; margin: 0 0 ${fontSize * 0.75}px 0;">Preparação para o mercado de trabalho e desenvolvimento de habilidades.</p>
-                <ul style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.75; line-height: 1.5; margin: 0; padding-left: ${fontSize * 1.25}px;">
-                  <li>Informática básica e avançada</li>
-                  <li>Oficinas profissionalizantes</li>
-                  <li>Orientação vocacional</li>
-                  <li>Faixa etária: 14 a 18 anos</li>
-                </ul>
-              </div>
-              
-              <div class="card-hover" style="background: ${secondaryColor}; padding: ${fontSize * 1.5}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">⚽</div>
-                <h3 style="font-size: ${fontSize * 1.25}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Esportes</h3>
-                <p style="font-size: ${fontSize * 0.9375}px; color: ${textColor}; opacity: 0.8; line-height: 1.6; margin: 0 0 ${fontSize * 0.75}px 0;">Atividades esportivas para promover saúde, disciplina e trabalho em equipe.</p>
-                <ul style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.75; line-height: 1.5; margin: 0; padding-left: ${fontSize * 1.25}px;">
-                  <li>Futebol e futsal</li>
-                  <li>Vôlei e handebol</li>
-                  <li>Jogos cooperativos</li>
-                  <li>Todas as idades</li>
-                </ul>
-              </div>
-              
-              <div class="card-hover" style="background: ${secondaryColor}; padding: ${fontSize * 1.5}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">👨‍👩‍👧</div>
-                <h3 style="font-size: ${fontSize * 1.25}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Apoio às Famílias</h3>
-                <p style="font-size: ${fontSize * 0.9375}px; color: ${textColor}; opacity: 0.8; line-height: 1.6; margin: 0 0 ${fontSize * 0.75}px 0;">Fortalecimento de vínculos familiares e comunitários.</p>
-                <ul style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.75; line-height: 1.5; margin: 0; padding-left: ${fontSize * 1.25}px;">
-                  <li>Reuniões com pais e responsáveis</li>
-                  <li>Atendimento psicossocial</li>
-                  <li>Palestras e workshops</li>
-                  <li>Encaminhamentos à rede</li>
-                </ul>
-              </div>
-              
-              <div class="card-hover" style="background: ${secondaryColor}; padding: ${fontSize * 1.5}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">🎓</div>
-                <h3 style="font-size: ${fontSize * 1.25}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Jovem Aprendiz</h3>
-                <p style="font-size: ${fontSize * 0.9375}px; color: ${textColor}; opacity: 0.8; line-height: 1.6; margin: 0 0 ${fontSize * 0.75}px 0;">Programa de inserção profissional para adolescentes e jovens.</p>
-                <ul style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.75; line-height: 1.5; margin: 0; padding-left: ${fontSize * 1.25}px;">
-                  <li>Encaminhamento ao mercado</li>
-                  <li>Curso de aprendizagem</li>
-                  <li>Acompanhamento no trabalho</li>
-                  <li>16 a 18 anos</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- PACTO 2026 Section -->
-        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${secondaryColor};">
-          <div style="max-width: 800px; margin: 0 auto;">
-            <div style="text-align: center; margin-bottom: ${fontSize * 3}px;">
-              <div style="font-size: ${fontSize * 3}px; margin-bottom: ${fontSize}px;">📝</div>
-              <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${textColor}; margin: 0 0 ${fontSize}px 0;">${config.pacto_title || defaultConfig.pacto_title}</h2>
-              <p style="font-size: ${fontSize * 1.125}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0;">${config.pacto_description || defaultConfig.pacto_description}</p>
-            </div>
-            
-            <form id="pactoForm" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-              <div style="margin-bottom: ${fontSize * 1.5}px;">
-                <label for="nome" style="display: block; font-size: ${fontSize * 0.875}px; font-weight: 600; color: ${textColor}; margin-bottom: ${fontSize * 0.5}px;">Nome Completo *</label>
-                <input type="text" id="nome" required style="width: 100%; padding: ${fontSize * 0.75}px ${fontSize}px; border: 1px solid #d1d5db; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; box-sizing: border-box;">
-              </div>
-              
-              <div style="margin-bottom: ${fontSize * 1.5}px;">
-                <label for="email" style="display: block; font-size: ${fontSize * 0.875}px; font-weight: 600; color: ${textColor}; margin-bottom: ${fontSize * 0.5}px;">E-mail *</label>
-                <input type="email" id="email" required style="width: 100%; padding: ${fontSize * 0.75}px ${fontSize}px; border: 1px solid #d1d5db; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; box-sizing: border-box;">
-              </div>
-              
-              <div style="margin-bottom: ${fontSize * 1.5}px;">
-                <label for="telefone" style="display: block; font-size: ${fontSize * 0.875}px; font-weight: 600; color: ${textColor}; margin-bottom: ${fontSize * 0.5}px;">Telefone *</label>
-                <input type="tel" id="telefone" required style="width: 100%; padding: ${fontSize * 0.75}px ${fontSize}px; border: 1px solid #d1d5db; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; box-sizing: border-box;">
-              </div>
-              
-              <div style="margin-bottom: ${fontSize * 1.5}px;">
-                <label for="area" style="display: block; font-size: ${fontSize * 0.875}px; font-weight: 600; color: ${textColor}; margin-bottom: ${fontSize * 0.5}px;">Área de Interesse *</label>
-                <select id="area" required style="width: 100%; padding: ${fontSize * 0.75}px ${fontSize}px; border: 1px solid #d1d5db; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; box-sizing: border-box;">
-                  <option value="">Selecione uma área</option>
-                  <option value="educacao">Educação</option>
-                  <option value="cultura">Cultura</option>
-                  <option value="esportes">Esportes</option>
-                  <option value="administrativo">Administrativo</option>
-                  <option value="jovem-aprendiz">Jovem Aprendiz</option>
-                </select>
-              </div>
-              
-              <div style="margin-bottom: ${fontSize * 2}px;">
-                <label for="mensagem" style="display: block; font-size: ${fontSize * 0.875}px; font-weight: 600; color: ${textColor}; margin-bottom: ${fontSize * 0.5}px;">Por que deseja participar?</label>
-                <textarea id="mensagem" rows="4" style="width: 100%; padding: ${fontSize * 0.75}px ${fontSize}px; border: 1px solid #d1d5db; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; resize: vertical; box-sizing: border-box;"></textarea>
-              </div>
-              
-              <div id="pactoMessage" style="display: none; padding: ${fontSize}px; border-radius: ${fontSize * 0.375}px; margin-bottom: ${fontSize * 1.5}px; text-align: center; font-size: ${fontSize * 0.875}px;"></div>
-              
-              <button type="submit" style="width: 100%; background: ${primaryColor}; color: ${secondaryColor}; padding: ${fontSize}px; border: none; border-radius: ${fontSize * 0.5}px; font-size: ${fontSize * 1.125}px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='${accentColor}'" onmouseout="this.style.background='${primaryColor}'">
-                Enviar Inscrição
-              </button>
-            </form>
-          </div>
-        </section>
-
-        <!-- Volunteer & Store Section -->
-        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${cardBg};">
-          <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: ${fontSize * 2}px;">
-              <div style="background: ${secondaryColor}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;">
-                <div style="font-size: ${fontSize * 3}px; margin-bottom: ${fontSize}px;">🤝</div>
-                <h3 style="font-size: ${fontSize * 1.5}px; font-weight: bold; color: ${primaryColor}; margin: 0 0 ${fontSize}px 0;">${config.volunteer_title || defaultConfig.volunteer_title}</h3>
-                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0 0 ${fontSize * 1.5}px 0;">${config.volunteer_description || defaultConfig.volunteer_description}</p>
-                <a href="#pactoForm" onclick="document.getElementById('pactoForm').scrollIntoView({behavior: 'smooth'})" style="display: inline-block; background: ${primaryColor}; color: ${secondaryColor}; padding: ${fontSize * 0.75}px ${fontSize * 1.5}px; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; font-weight: 600; text-decoration: none; transition: background 0.2s;" onmouseover="this.style.background='${accentColor}'" onmouseout="this.style.background='${primaryColor}'">
-                  Quero ser voluntário
-                </a>
-              </div>
-              
-              <div style="background: ${secondaryColor}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;">
-                <div style="font-size: ${fontSize * 3}px; margin-bottom: ${fontSize}px;">🛍️</div>
-                <h3 style="font-size: ${fontSize * 1.5}px; font-weight: bold; color: ${primaryColor}; margin: 0 0 ${fontSize}px 0;">${config.store_title || defaultConfig.store_title}</h3>
-                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0 0 ${fontSize * 1.5}px 0;">${config.store_description || defaultConfig.store_description}</p>
-                <a href="https://www.gprimavera.org.br/loja" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: ${primaryColor}; color: ${secondaryColor}; padding: ${fontSize * 0.75}px ${fontSize * 1.5}px; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; font-weight: 600; text-decoration: none; transition: background 0.2s;" onmouseover="this.style.background='${accentColor}'" onmouseout="this.style.background='${primaryColor}'">
-                  Visitar Loja
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Denounce Channel Section -->
-        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${secondaryColor};">
-          <div style="max-width: 800px; margin: 0 auto;">
-            <div style="text-align: center; margin-bottom: ${fontSize * 3}px;">
-              <div style="font-size: ${fontSize * 3}px; margin-bottom: ${fontSize}px;">🔒</div>
-              <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${textColor}; margin: 0 0 ${fontSize}px 0;">${config.denounce_title || defaultConfig.denounce_title}</h2>
-              <p style="font-size: ${fontSize * 1.125}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0;">${config.denounce_description || defaultConfig.denounce_description}</p>
-            </div>
-            
-            <form id="denounceForm" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-              <div style="background: #fef3c7; padding: ${fontSize}px; border-radius: ${fontSize * 0.375}px; margin-bottom: ${fontSize * 1.5}px; border-left: 4px solid #f59e0b;">
-                <p style="font-size: ${fontSize * 0.875}px; color: #92400e; margin: 0; line-height: 1.6;">
-                  ⚠️ Esta denúncia é totalmente anônima. Não coletamos dados pessoais identificáveis.
-                </p>
-              </div>
-              
-              <div style="margin-bottom: ${fontSize * 1.5}px;">
-                <label for="denounceType" style="display: block; font-size: ${fontSize * 0.875}px; font-weight: 600; color: ${textColor}; margin-bottom: ${fontSize * 0.5}px;">Tipo de Denúncia *</label>
-                <select id="denounceType" required style="width: 100%; padding: ${fontSize * 0.75}px ${fontSize}px; border: 1px solid #d1d5db; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; box-sizing: border-box;">
-                  <option value="">Selecione o tipo</option>
-                  <option value="violencia">Violência ou maus-tratos</option>
-                  <option value="discriminacao">Discriminação</option>
-                  <option value="irregularidade">Irregularidade administrativa</option>
-                  <option value="outro">Outro</option>
-                </select>
-              </div>
-              
-              <div style="margin-bottom: ${fontSize * 2}px;">
-                <label for="denounceText" style="display: block; font-size: ${fontSize * 0.875}px; font-weight: 600; color: ${textColor}; margin-bottom: ${fontSize * 0.5}px;">Descrição da Denúncia *</label>
-                <textarea id="denounceText" required rows="6" placeholder="Descreva o que aconteceu, quando e onde. Quanto mais detalhes, melhor poderemos agir." style="width: 100%; padding: ${fontSize * 0.75}px ${fontSize}px; border: 1px solid #d1d5db; border-radius: ${fontSize * 0.375}px; font-size: ${fontSize}px; resize: vertical; box-sizing: border-box;"></textarea>
-              </div>
-              
-              <div id="denounceMessage" style="display: none; padding: ${fontSize}px; border-radius: ${fontSize * 0.375}px; margin-bottom: ${fontSize * 1.5}px; text-align: center; font-size: ${fontSize * 0.875}px;"></div>
-              
-              <button type="submit" style="width: 100%; background: ${primaryColor}; color: ${secondaryColor}; padding: ${fontSize}px; border: none; border-radius: ${fontSize * 0.5}px; font-size: ${fontSize * 1.125}px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='${accentColor}'" onmouseout="this.style.background='${primaryColor}'">
-                Enviar Denúncia Anônima
-              </button>
-            </form>
-          </div>
-        </section>
-
-        <!-- Testimonials Section -->
-        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${cardBg};">
-          <div style="max-width: 1000px; margin: 0 auto;">
-            <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${textColor}; margin: 0 0 ${fontSize * 3}px 0; text-align: center;">${config.testimonial_title || defaultConfig.testimonial_title}</h2>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: ${fontSize * 2}px;">
-              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: relative;">
-                <div style="font-size: ${fontSize * 2.5}px; color: ${primaryColor}; margin-bottom: ${fontSize}px;">❝</div>
-                <p style="font-size: ${fontSize}px; color: ${textColor}; line-height: 1.7; margin: 0 0 ${fontSize * 1.5}px 0; font-style: italic;">${config.testimonial_1 || defaultConfig.testimonial_1}</p>
-                <p style="font-size: ${fontSize * 0.875}px; color: ${primaryColor}; font-weight: 600; margin: 0;">— ${config.testimonial_1_author || defaultConfig.testimonial_1_author}</p>
-              </div>
-              
-              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: relative;">
-                <div style="font-size: ${fontSize * 2.5}px; color: ${primaryColor}; margin-bottom: ${fontSize}px;">❝</div>
-                <p style="font-size: ${fontSize}px; color: ${textColor}; line-height: 1.7; margin: 0 0 ${fontSize * 1.5}px 0; font-style: italic;">${config.testimonial_2 || defaultConfig.testimonial_2}</p>
-                <p style="font-size: ${fontSize * 0.875}px; color: ${primaryColor}; font-weight: 600; margin: 0;">— ${config.testimonial_2_author || defaultConfig.testimonial_2_author}</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Donation Section -->
-        <section id="donate" style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${cardBg};">
-          <div style="max-width: 1200px; margin: 0 auto;">
-            <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${textColor}; margin: 0 0 ${fontSize * 1.5}px 0; text-align: center;">Como Apoiar</h2>
-            <p style="font-size: ${fontSize * 1.125}px; color: ${textColor}; opacity: 0.8; text-align: center; margin: 0 0 ${fontSize * 3}px 0;">Sua contribuição transforma vidas!</p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: ${fontSize * 1.5}px;">
-              <div class="card-hover" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">💳</div>
-                <h3 style="font-size: ${fontSize * 1.125}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Doação via PIX</h3>
-                <p style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.8; margin: 0 0 ${fontSize}px 0;">CNPJ: 67.995.969/0001-10</p>
-              </div>
-              
-              <div class="card-hover" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">📄</div>
-                <h3 style="font-size: ${fontSize * 1.125}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Imposto de Renda</h3>
-                <p style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.8; margin: 0 0 ${fontSize}px 0;">Destine parte do seu IR para nossas ações</p>
-              </div>
-              
-              <div class="card-hover" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">🤝</div>
-                <h3 style="font-size: ${fontSize * 1.125}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Seja Voluntário</h3>
-                <p style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.8; margin: 0 0 ${fontSize}px 0;">Contribua com seu tempo e talento</p>
-              </div>
-              
-              <div class="card-hover" style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">🏢</div>
-                <h3 style="font-size: ${fontSize * 1.125}px; font-weight: 600; color: ${primaryColor}; margin: 0 0 ${fontSize * 0.75}px 0;">Empresa Parceira</h3>
-                <p style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.8; margin: 0 0 ${fontSize}px 0;">Incentivos fiscais para empresas</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Schedule & Transparency Section -->
-        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${secondaryColor};">
-          <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: ${fontSize * 2}px;">
-              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;">
-                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">🕐</div>
-                <h3 style="font-size: ${fontSize * 1.5}px; font-weight: bold; color: ${primaryColor}; margin: 0 0 ${fontSize * 1.5}px 0;">${config.schedule_title || defaultConfig.schedule_title}</h3>
-                <p style="font-size: ${fontSize * 1.0625}px; color: ${textColor}; font-weight: 600; margin: 0 0 ${fontSize * 0.75}px 0;">${config.schedule_weekdays || defaultConfig.schedule_weekdays}</p>
-                <p style="font-size: ${fontSize * 0.875}px; color: ${textColor}; opacity: 0.7; margin: 0;">${config.schedule_note || defaultConfig.schedule_note}</p>
-              </div>
-              
-              <div style="background: ${cardBg}; padding: ${fontSize * 2}px; border-radius: ${fontSize * 0.75}px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;">
-                <div style="font-size: ${fontSize * 2.5}px; margin-bottom: ${fontSize}px;">📊</div>
-                <h3 style="font-size: ${fontSize * 1.5}px; font-weight: bold; color: ${primaryColor}; margin: 0 0 ${fontSize * 1.5}px 0;">${config.transparency_title || defaultConfig.transparency_title}</h3>
-                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.85; line-height: 1.7; margin: 0;">${config.transparency_text || defaultConfig.transparency_text}</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section style="padding: ${fontSize * 4}px ${fontSize * 1.5}px; background: ${cardBg};">
-          <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-            <h2 style="font-size: ${fontSize * 2}px; font-weight: bold; color: ${textColor}; margin: 0 0 ${fontSize * 1.5}px 0;">${config.contact_title || defaultConfig.contact_title}</h2>
-            
-            <div style="display: flex; flex-direction: column; gap: ${fontSize}px; align-items: center; margin-top: ${fontSize * 2}px;">
-              <div style="display: flex; align-items: center; gap: ${fontSize * 0.75}px;">
-                <span style="font-size: ${fontSize * 1.5}px;">📍</span>
-                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.9; margin: 0;">${config.address_text || defaultConfig.address_text}</p>
-              </div>
-              
-              <div style="display: flex; align-items: center; gap: ${fontSize * 0.75}px;">
-                <span style="font-size: ${fontSize * 1.5}px;">📞</span>
-                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.9; margin: 0;">${config.phone_text || defaultConfig.phone_text}</p>
-              </div>
-              
-              <div style="display: flex; align-items: center; gap: ${fontSize * 0.75}px;">
-                <span style="font-size: ${fontSize * 1.5}px;">✉️</span>
-                <p style="font-size: ${fontSize}px; color: ${textColor}; opacity: 0.9; margin: 0;">contato@gprimavera.org.br</p>
-              </div>
-            </div>
-            
-            <a href="https://www.gprimavera.org.br" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin-top: ${fontSize * 2}px; background: ${primaryColor}; color: ${secondaryColor}; padding: ${fontSize}px ${fontSize * 2}px; border-radius: ${fontSize * 0.5}px; font-size: ${fontSize}px; font-weight: 600; text-decoration: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background 0.2s;" onmouseover="this.style.background='${accentColor}'" onmouseout="this.style.background='${primaryColor}'">
-              Visite Nosso Site
-            </a>
-          </div>
-        </section>
-
-        <!-- Footer -->
-        <footer style="background: ${textColor}; color: ${secondaryColor}; padding: ${fontSize * 2}px ${fontSize * 1.5}px; text-align: center;">
-          <p style="font-size: ${fontSize * 0.875}px; opacity: 0.9; margin: 0;">© 2024 Grupo Primavera | Transformando vidas através da educação</p>
-        </footer>
-      `;
+      // Nav colors
+      document.querySelector('nav').style.color = textColor;
+      document.getElementById('nav-org-name').style.color = textColor;
+      document.querySelectorAll('nav a').forEach(link => {
+        link.style.color = textColor;
+      });
+      
+      // Hero section
+      const heroSection = document.querySelector('.gradient-bg');
+      heroSection.style.background = `linear-gradient(135deg, #dc2626 0%, #991b1b 100%)`;
+      heroSection.style.color = '#ffffff';
+      
+      // CTA buttons
+      const ctaDonate = document.getElementById('cta-donate');
+      ctaDonate.style.backgroundColor = '#ffffff';
+      ctaDonate.style.color = primaryColor;
+      
+      const ctaLearn = document.getElementById('cta-learn');
+      ctaLearn.style.borderColor = '#ffffff';
+      ctaLearn.style.color = '#ffffff';
+      
+      // About section
+      document.querySelector('#sobre .rounded-2xl').style.backgroundColor = surfaceColor;
+      
+      // Stat cards
+      document.querySelectorAll('.stat-card').forEach(card => {
+        card.style.backgroundColor = surfaceColor;
+      });
+      document.querySelectorAll('.stat-card .text-5xl').forEach(stat => {
+        stat.style.color = primaryColor;
+      });
+      
+      // Program cards
+      document.querySelectorAll('#programas .rounded-2xl').forEach(card => {
+        card.style.backgroundColor = surfaceColor;
+      });
+      document.querySelectorAll('#programas .rounded-full').forEach(circle => {
+        circle.style.backgroundColor = primaryColor + '20';
+        circle.style.color = primaryColor;
+      });
+      
+      // Ways to help cards
+      document.querySelectorAll('#ajudar .rounded-xl').forEach(card => {
+        card.style.backgroundColor = surfaceColor;
+      });
+      document.querySelectorAll('#ajudar button').forEach(btn => {
+        btn.style.backgroundColor = primaryColor;
+        btn.style.color = '#ffffff';
+      });
+      
+      // Contact section
+      document.querySelector('#contato .rounded-2xl').style.backgroundColor = surfaceColor;
+      document.querySelectorAll('#contato .rounded-full').forEach(circle => {
+        circle.style.backgroundColor = primaryColor + '20';
+        circle.style.color = primaryColor;
+      });
+      document.querySelectorAll('#contato a').forEach(link => {
+        link.style.backgroundColor = primaryColor + '20';
+        link.style.color = primaryColor;
+      });
+      
+      // Footer
+      document.querySelector('footer').style.backgroundColor = surfaceColor;
+      document.querySelector('footer svg circle').setAttribute('fill', primaryColor);
+      document.querySelector('footer svg path').setAttribute('fill', primaryColor);
+      
+      // Section dividers
+      document.querySelectorAll('.w-24.h-1').forEach(divider => {
+        divider.style.backgroundColor = primaryColor;
+      });
+      
+      // Apply fonts with proper sizing
+      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+      
+      // Headings
+      document.querySelectorAll('h1').forEach(h1 => {
+        h1.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        h1.style.fontSize = `${baseSize * 3}px`;
+      });
+      document.querySelectorAll('h2').forEach(h2 => {
+        h2.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        h2.style.fontSize = `${baseSize * 2}px`;
+      });
+      document.querySelectorAll('h3').forEach(h3 => {
+        h3.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        h3.style.fontSize = `${baseSize * 1.5}px`;
+      });
+      
+      // Body text
+      document.querySelectorAll('p').forEach(p => {
+        p.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        p.style.fontSize = `${baseSize}px`;
+      });
+      
+      // Buttons and links
+      document.querySelectorAll('button, a').forEach(el => {
+        el.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        el.style.fontSize = `${baseSize}px`;
+      });
+      
+      // Stats
+      document.querySelectorAll('.stat-card .text-5xl').forEach(stat => {
+        stat.style.fontSize = `${baseSize * 2.5}px`;
+      });
+      
+      // Update text content
+      document.getElementById('nav-org-name').textContent = config.org_name || defaultConfig.org_name;
+      document.getElementById('hero-title').textContent = config.hero_title || defaultConfig.hero_title;
+      document.getElementById('hero-subtitle').textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+      document.getElementById('cta-donate').textContent = config.cta_donate || defaultConfig.cta_donate;
+      document.getElementById('cta-learn').textContent = config.cta_learn || defaultConfig.cta_learn;
+      document.getElementById('about-title').textContent = config.about_title || defaultConfig.about_title;
+      document.getElementById('about-text').textContent = config.about_text || defaultConfig.about_text;
+      document.getElementById('impact-title').textContent = config.impact_title || defaultConfig.impact_title;
+      document.getElementById('stat1-number').textContent = config.stat1_number || defaultConfig.stat1_number;
+      document.getElementById('stat1-label').textContent = config.stat1_label || defaultConfig.stat1_label;
+      document.getElementById('stat2-number').textContent = config.stat2_number || defaultConfig.stat2_number;
+      document.getElementById('stat2-label').textContent = config.stat2_label || defaultConfig.stat2_label;
+      document.getElementById('stat3-number').textContent = config.stat3_number || defaultConfig.stat3_number;
+      document.getElementById('stat3-label').textContent = config.stat3_label || defaultConfig.stat3_label;
+      document.getElementById('stat4-number').textContent = config.stat4_number || defaultConfig.stat4_number;
+      document.getElementById('stat4-label').textContent = config.stat4_label || defaultConfig.stat4_label;
+      document.getElementById('programs-title').textContent = config.programs_title || defaultConfig.programs_title;
+      document.getElementById('program1-title').textContent = config.program1_title || defaultConfig.program1_title;
+      document.getElementById('program1-desc').textContent = config.program1_desc || defaultConfig.program1_desc;
+      document.getElementById('program2-title').textContent = config.program2_title || defaultConfig.program2_title;
+      document.getElementById('program2-desc').textContent = config.program2_desc || defaultConfig.program2_desc;
+      document.getElementById('program3-title').textContent = config.program3_title || defaultConfig.program3_title;
+      document.getElementById('program3-desc').textContent = config.program3_desc || defaultConfig.program3_desc;
+      document.getElementById('ways-title').textContent = config.ways_title || defaultConfig.ways_title;
+      document.getElementById('way1-title').textContent = config.way1_title || defaultConfig.way1_title;
+      document.getElementById('way2-title').textContent = config.way2_title || defaultConfig.way2_title;
+      document.getElementById('way3-title').textContent = config.way3_title || defaultConfig.way3_title;
+      document.getElementById('way4-title').textContent = config.way4_title || defaultConfig.way4_title;
+      document.getElementById('contact-title').textContent = config.contact_title || defaultConfig.contact_title;
+      document.getElementById('contact-address').textContent = config.contact_address || defaultConfig.contact_address;
+      document.getElementById('contact-phone').textContent = config.contact_phone || defaultConfig.contact_phone;
+      document.getElementById('contact-email').textContent = config.contact_email || defaultConfig.contact_email;
+      document.getElementById('footer-text').textContent = config.footer_text || defaultConfig.footer_text;
     }
 
     function mapToCapabilities(config) {
       return {
         recolorables: [
           {
-            get: () => config.primary_color || defaultConfig.primary_color,
+            get: () => config.background_color || defaultConfig.background_color,
             set: (value) => {
-              config.primary_color = value;
-              window.elementSdk.setConfig({ primary_color: value });
+              config.background_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ background_color: value });
+              }
             }
           },
           {
-            get: () => config.secondary_color || defaultConfig.secondary_color,
+            get: () => config.surface_color || defaultConfig.surface_color,
             set: (value) => {
-              config.secondary_color = value;
-              window.elementSdk.setConfig({ secondary_color: value });
+              config.surface_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ surface_color: value });
+              }
             }
           },
           {
             get: () => config.text_color || defaultConfig.text_color,
             set: (value) => {
               config.text_color = value;
-              window.elementSdk.setConfig({ text_color: value });
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ text_color: value });
+              }
             }
           },
           {
-            get: () => config.accent_color || defaultConfig.accent_color,
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
             set: (value) => {
-              config.accent_color = value;
-              window.elementSdk.setConfig({ accent_color: value });
+              config.primary_action_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ primary_action_color: value });
+              }
             }
           },
           {
-            get: () => config.card_background || defaultConfig.card_background,
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
             set: (value) => {
-              config.card_background = value;
-              window.elementSdk.setConfig({ card_background: value });
+              config.secondary_action_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ secondary_action_color: value });
+              }
             }
           }
         ],
@@ -579,14 +627,18 @@
           get: () => config.font_family || defaultConfig.font_family,
           set: (value) => {
             config.font_family = value;
-            window.elementSdk.setConfig({ font_family: value });
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ font_family: value });
+            }
           }
         },
         fontSizeable: {
           get: () => config.font_size || defaultConfig.font_size,
           set: (value) => {
             config.font_size = value;
-            window.elementSdk.setConfig({ font_size: value });
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ font_size: value });
+            }
           }
         }
       };
@@ -595,108 +647,336 @@
     function mapToEditPanelValues(config) {
       return new Map([
         ["org_name", config.org_name || defaultConfig.org_name],
-        ["tagline", config.tagline || defaultConfig.tagline],
+        ["hero_title", config.hero_title || defaultConfig.hero_title],
+        ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
+        ["cta_donate", config.cta_donate || defaultConfig.cta_donate],
+        ["cta_learn", config.cta_learn || defaultConfig.cta_learn],
         ["about_title", config.about_title || defaultConfig.about_title],
         ["about_text", config.about_text || defaultConfig.about_text],
-        ["mission_title", config.mission_title || defaultConfig.mission_title],
-        ["mission_text", config.mission_text || defaultConfig.mission_text],
-        ["vision_title", config.vision_title || defaultConfig.vision_title],
-        ["vision_text", config.vision_text || defaultConfig.vision_text],
-        ["values_title", config.values_title || defaultConfig.values_title],
-        ["impact_intro", config.impact_intro || defaultConfig.impact_intro],
-        ["years_label", config.years_label || defaultConfig.years_label],
-        ["children_served_label", config.children_served_label || defaultConfig.children_served_label],
-        ["daily_attendance_label", config.daily_attendance_label || defaultConfig.daily_attendance_label],
-        ["programs_intro", config.programs_intro || defaultConfig.programs_intro],
-        ["pacto_title", config.pacto_title || defaultConfig.pacto_title],
-        ["pacto_description", config.pacto_description || defaultConfig.pacto_description],
-        ["volunteer_title", config.volunteer_title || defaultConfig.volunteer_title],
-        ["volunteer_description", config.volunteer_description || defaultConfig.volunteer_description],
-        ["store_title", config.store_title || defaultConfig.store_title],
-        ["store_description", config.store_description || defaultConfig.store_description],
-        ["denounce_title", config.denounce_title || defaultConfig.denounce_title],
-        ["denounce_description", config.denounce_description || defaultConfig.denounce_description],
-        ["testimonial_title", config.testimonial_title || defaultConfig.testimonial_title],
-        ["testimonial_1", config.testimonial_1 || defaultConfig.testimonial_1],
-        ["testimonial_1_author", config.testimonial_1_author || defaultConfig.testimonial_1_author],
-        ["testimonial_2", config.testimonial_2 || defaultConfig.testimonial_2],
-        ["testimonial_2_author", config.testimonial_2_author || defaultConfig.testimonial_2_author],
+        ["impact_title", config.impact_title || defaultConfig.impact_title],
+        ["stat1_number", config.stat1_number || defaultConfig.stat1_number],
+        ["stat1_label", config.stat1_label || defaultConfig.stat1_label],
+        ["stat2_number", config.stat2_number || defaultConfig.stat2_number],
+        ["stat2_label", config.stat2_label || defaultConfig.stat2_label],
+        ["stat3_number", config.stat3_number || defaultConfig.stat3_number],
+        ["stat3_label", config.stat3_label || defaultConfig.stat3_label],
+        ["stat4_number", config.stat4_number || defaultConfig.stat4_number],
+        ["stat4_label", config.stat4_label || defaultConfig.stat4_label],
+        ["programs_title", config.programs_title || defaultConfig.programs_title],
+        ["program1_title", config.program1_title || defaultConfig.program1_title],
+        ["program1_desc", config.program1_desc || defaultConfig.program1_desc],
+        ["program2_title", config.program2_title || defaultConfig.program2_title],
+        ["program2_desc", config.program2_desc || defaultConfig.program2_desc],
+        ["program3_title", config.program3_title || defaultConfig.program3_title],
+        ["program3_desc", config.program3_desc || defaultConfig.program3_desc],
+        ["ways_title", config.ways_title || defaultConfig.ways_title],
+        ["way1_title", config.way1_title || defaultConfig.way1_title],
+        ["way2_title", config.way2_title || defaultConfig.way2_title],
+        ["way3_title", config.way3_title || defaultConfig.way3_title],
+        ["way4_title", config.way4_title || defaultConfig.way4_title],
         ["contact_title", config.contact_title || defaultConfig.contact_title],
-        ["address_text", config.address_text || defaultConfig.address_text],
-        ["phone_text", config.phone_text || defaultConfig.phone_text],
-        ["history_title", config.history_title || defaultConfig.history_title],
-        ["history_text", config.history_text || defaultConfig.history_text],
-        ["team_title", config.team_title || defaultConfig.team_title],
-        ["team_text", config.team_text || defaultConfig.team_text],
-        ["partnerships_title", config.partnerships_title || defaultConfig.partnerships_title],
-        ["partnerships_text", config.partnerships_text || defaultConfig.partnerships_text],
-        ["schedule_title", config.schedule_title || defaultConfig.schedule_title],
-        ["schedule_weekdays", config.schedule_weekdays || defaultConfig.schedule_weekdays],
-        ["schedule_note", config.schedule_note || defaultConfig.schedule_note],
-        ["transparency_title", config.transparency_title || defaultConfig.transparency_title],
-        ["transparency_text", config.transparency_text || defaultConfig.transparency_text]
+        ["contact_address", config.contact_address || defaultConfig.contact_address],
+        ["contact_phone", config.contact_phone || defaultConfig.contact_phone],
+        ["contact_email", config.contact_email || defaultConfig.contact_email],
+        ["footer_text", config.footer_text || defaultConfig.footer_text]
       ]);
     }
 
-    // Form handlers
-    document.addEventListener('DOMContentLoaded', function() {
-      const pactoForm = document.getElementById('pactoForm');
-      if (pactoForm) {
-        pactoForm.addEventListener('submit', function(e) {
-          e.preventDefault();
-          
-          const messageDiv = document.getElementById('pactoMessage');
-          const submitButton = pactoForm.querySelector('button[type="submit"]');
-          
-          submitButton.disabled = true;
-          submitButton.textContent = 'Enviando...';
-          
+    // Floating hearts animation
+    function createFloatingHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.textContent = ['❤️', '💕', '💖', '💗', '💓'][Math.floor(Math.random() * 5)];
+      heart.style.left = Math.random() * 100 + '%';
+      heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    
+    // Create floating hearts periodically
+    setInterval(createFloatingHeart, 2000);
+    
+    // Memory Game
+    function startMemoryGame() {
+      const cards = [
+        { emoji: '❤️', text: 'Amor' },
+        { emoji: '❤️', text: 'Amor' },
+        { emoji: '📚', text: 'Educação' },
+        { emoji: '📚', text: 'Educação' },
+        { emoji: '🎨', text: 'Arte' },
+        { emoji: '🎨', text: 'Arte' },
+        { emoji: '🤝', text: 'União' },
+        { emoji: '🤝', text: 'União' },
+        { emoji: '🌟', text: 'Esperança' },
+        { emoji: '🌟', text: 'Esperança' },
+        { emoji: '🎯', text: 'Foco' },
+        { emoji: '🎯', text: 'Foco' }
+      ].sort(() => Math.random() - 0.5);
+      
+      let flipped = [];
+      let matched = 0;
+      
+      const gameHTML = `
+        <h2 class="text-3xl font-bold mb-6 text-center">🎮 Jogo da Memória do Grupo Primavera</h2>
+        <p class="text-center mb-6 opacity-70">Encontre os pares que representam nossos valores!</p>
+        <div class="grid grid-cols-4 gap-4 mb-6">
+          ${cards.map((card, i) => `
+            <button onclick="flipCard(${i})" id="card-${i}" class="aspect-square rounded-xl font-bold text-3xl transition-all hover:scale-105 card-face" style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: white;">
+              ❓
+            </button>
+          `).join('')}
+        </div>
+        <div class="text-center">
+          <p class="text-xl font-semibold">Pares encontrados: <span id="score">0</span>/6</p>
+        </div>
+      `;
+      
+      document.getElementById('game-content').innerHTML = gameHTML;
+      document.getElementById('game-modal').classList.remove('hidden');
+      
+      window.flipCard = function(index) {
+        const cardEl = document.getElementById(`card-${index}`);
+        if (flipped.length >= 2 || flipped.includes(index) || cardEl.classList.contains('matched')) return;
+        
+        cardEl.textContent = cards[index].emoji;
+        cardEl.style.background = 'linear-gradient(135deg, #fca5a5 0%, #dc2626 100%)';
+        flipped.push(index);
+        
+        if (flipped.length === 2) {
           setTimeout(() => {
-            messageDiv.style.display = 'block';
-            messageDiv.style.background = '#d1fae5';
-            messageDiv.style.color = '#065f46';
-            messageDiv.textContent = '✓ Inscrição enviada com sucesso! Entraremos em contato em breve.';
-            
-            pactoForm.reset();
-            submitButton.disabled = false;
-            submitButton.textContent = 'Enviar Inscrição';
-            
-            setTimeout(() => {
-              messageDiv.style.display = 'none';
-            }, 5000);
-          }, 1500);
-        });
+            if (cards[flipped[0]].text === cards[flipped[1]].text) {
+              document.getElementById(`card-${flipped[0]}`).classList.add('matched');
+              document.getElementById(`card-${flipped[1]}`).classList.add('matched');
+              matched++;
+              document.getElementById('score').textContent = matched;
+              
+              for(let i = 0; i < 5; i++) {
+                setTimeout(() => createFloatingHeart(), i * 100);
+              }
+              
+              if (matched === 6) {
+                setTimeout(() => {
+                  document.getElementById('game-content').innerHTML = `
+                    <div class="text-center py-12">
+                      <div class="text-8xl mb-6 heart-beat">❤️</div>
+                      <h2 class="text-4xl font-bold mb-4">Parabéns!</h2>
+                      <p class="text-xl mb-8">Você completou o jogo e aprendeu sobre nossos valores!</p>
+                      <button onclick="startMemoryGame()" class="px-8 py-4 rounded-full font-semibold text-lg transition-all hover:scale-105" style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: white;">Jogar Novamente</button>
+                    </div>
+                  `;
+                }, 500);
+              }
+            } else {
+              document.getElementById(`card-${flipped[0]}`).textContent = '❓';
+              document.getElementById(`card-${flipped[1]}`).textContent = '❓';
+              document.getElementById(`card-${flipped[0]}`).style.background = 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)';
+              document.getElementById(`card-${flipped[1]}`).style.background = 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)';
+            }
+            flipped = [];
+          }, 1000);
+        }
+      };
+    }
+    
+    // Quiz Game
+    function startQuizGame() {
+      const questions = [
+        {
+          q: "Em que ano o Grupo Primavera foi fundado?",
+          options: ["1975", "1981", "1990", "2000"],
+          correct: 1
+        },
+        {
+          q: "Quantas crianças e jovens são atendidos diariamente?",
+          options: ["200", "350", "484", "600"],
+          correct: 2
+        },
+        {
+          q: "Qual é a faixa etária atendida pelo Grupo Primavera?",
+          options: ["3 a 10 anos", "6 a 18 anos", "10 a 15 anos", "15 a 25 anos"],
+          correct: 1
+        },
+        {
+          q: "Qual símbolo representa o amor e dedicação da ONG?",
+          options: ["Estrela", "Coração", "Sol", "Flor"],
+          correct: 1
+        }
+      ];
+      
+      let currentQuestion = 0;
+      let score = 0;
+      
+      function showQuestion() {
+        const q = questions[currentQuestion];
+        const gameHTML = `
+          <h2 class="text-3xl font-bold mb-6 text-center">🎯 Quiz Primavera</h2>
+          <div class="mb-6">
+            <div class="flex justify-between mb-4">
+              <span class="font-semibold">Pergunta ${currentQuestion + 1}/${questions.length}</span>
+              <span class="font-semibold">Pontos: ${score}</span>
+            </div>
+            <div class="w-full h-2 rounded-full overflow-hidden mb-6" style="background: rgba(220, 38, 38, 0.2);">
+              <div class="h-full transition-all" style="width: ${((currentQuestion) / questions.length) * 100}%; background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);"></div>
+            </div>
+          </div>
+          <h3 class="text-2xl font-bold mb-8 text-center">${q.q}</h3>
+          <div class="grid gap-4">
+            ${q.options.map((opt, i) => `
+              <button onclick="checkAnswer(${i})" class="p-6 rounded-xl font-semibold text-lg transition-all hover:scale-105" style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: white;">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+        `;
+        document.getElementById('game-content').innerHTML = gameHTML;
       }
       
-      const denounceForm = document.getElementById('denounceForm');
-      if (denounceForm) {
-        denounceForm.addEventListener('submit', function(e) {
-          e.preventDefault();
-          
-          const messageDiv = document.getElementById('denounceMessage');
-          const submitButton = denounceForm.querySelector('button[type="submit"]');
-          
-          submitButton.disabled = true;
-          submitButton.textContent = 'Enviando...';
-          
-          setTimeout(() => {
-            messageDiv.style.display = 'block';
-            messageDiv.style.background = '#d1fae5';
-            messageDiv.style.color = '#065f46';
-            messageDiv.textContent = '✓ Denúncia registrada anonimamente. Agradecemos sua coragem.';
-            
-            denounceForm.reset();
-            submitButton.disabled = false;
-            submitButton.textContent = 'Enviar Denúncia Anônima';
-            
-            setTimeout(() => {
-              messageDiv.style.display = 'none';
-            }, 5000);
-          }, 1500);
-        });
+      window.checkAnswer = function(answer) {
+        const q = questions[currentQuestion];
+        const correct = answer === q.correct;
+        
+        if (correct) {
+          score += 10;
+          for(let i = 0; i < 3; i++) {
+            setTimeout(() => createFloatingHeart(), i * 100);
+          }
+        }
+        
+        const resultHTML = `
+          <div class="text-center py-12">
+            <div class="text-8xl mb-6">${correct ? '✅' : '❌'}</div>
+            <h3 class="text-3xl font-bold mb-4">${correct ? 'Correto!' : 'Ops!'}</h3>
+            <p class="text-xl mb-8">${correct ? 'Você acertou!' : 'A resposta certa era: ' + q.options[q.correct]}</p>
+            <button onclick="nextQuestion()" class="px-8 py-4 rounded-full font-semibold text-lg transition-all hover:scale-105" style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: white;">
+              ${currentQuestion < questions.length - 1 ? 'Próxima Pergunta' : 'Ver Resultado'}
+            </button>
+          </div>
+        `;
+        document.getElementById('game-content').innerHTML = resultHTML;
+      };
+      
+      window.nextQuestion = function() {
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+          showQuestion();
+        } else {
+          const finalHTML = `
+            <div class="text-center py-12">
+              <div class="text-8xl mb-6 heart-beat">❤️</div>
+              <h2 class="text-4xl font-bold mb-4">Quiz Concluído!</h2>
+              <p class="text-2xl mb-8">Sua pontuação: ${score}/${questions.length * 10} pontos</p>
+              <button onclick="startQuizGame()" class="px-8 py-4 rounded-full font-semibold text-lg transition-all hover:scale-105" style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: white;">Jogar Novamente</button>
+            </div>
+          `;
+          document.getElementById('game-content').innerHTML = finalHTML;
+        }
+      };
+      
+      document.getElementById('game-modal').classList.remove('hidden');
+      showQuestion();
+    }
+    
+    // Heart Collector Game
+    function startHeartGame() {
+      let score = 0;
+      let gameActive = true;
+      let timeLeft = 30;
+      
+      const gameHTML = `
+        <h2 class="text-3xl font-bold mb-6 text-center">💕 Coletor de Corações</h2>
+        <div class="mb-6 flex justify-between items-center">
+          <div class="text-xl font-semibold">Corações: <span id="heart-score">0</span></div>
+          <div class="text-xl font-semibold">Tempo: <span id="time-left">30</span>s</div>
+        </div>
+        <div id="game-area" class="relative rounded-2xl overflow-hidden cursor-pointer" style="background: linear-gradient(135deg, #fca5a5 0%, #dc2626 100%); height: 400px;">
+          <div class="absolute inset-0 flex items-center justify-center text-white text-lg font-semibold">
+            Clique nos corações que aparecerem!
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('game-content').innerHTML = gameHTML;
+      document.getElementById('game-modal').classList.remove('hidden');
+      
+      const gameArea = document.getElementById('game-area');
+      
+      function spawnHeart() {
+        if (!gameActive) return;
+        
+        const heart = document.createElement('div');
+        heart.className = 'absolute text-4xl cursor-pointer transition-transform hover:scale-125';
+        heart.textContent = ['❤️', '💕', '💖', '💗', '💓'][Math.floor(Math.random() * 5)];
+        heart.style.left = Math.random() * 85 + '%';
+        heart.style.top = Math.random() * 85 + '%';
+        
+        heart.onclick = function(e) {
+          e.stopPropagation();
+          score++;
+          document.getElementById('heart-score').textContent = score;
+          heart.remove();
+          createFloatingHeart();
+        };
+        
+        gameArea.appendChild(heart);
+        
+        setTimeout(() => {
+          if (heart.parentNode) heart.remove();
+        }, 2000);
       }
+      
+      const spawnInterval = setInterval(spawnHeart, 800);
+      
+      const timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById('time-left').textContent = timeLeft;
+        
+        if (timeLeft <= 0) {
+          gameActive = false;
+          clearInterval(spawnInterval);
+          clearInterval(timerInterval);
+          
+          document.getElementById('game-content').innerHTML = `
+            <div class="text-center py-12">
+              <div class="text-8xl mb-6 heart-beat">❤️</div>
+              <h2 class="text-4xl font-bold mb-4">Tempo Esgotado!</h2>
+              <p class="text-2xl mb-8">Você coletou ${score} corações!</p>
+              <p class="text-lg opacity-70 mb-8">${score >= 20 ? 'Incrível! Você tem um coração generoso!' : score >= 10 ? 'Muito bem! Continue espalhando amor!' : 'Tente novamente e colete mais corações!'}</p>
+              <button onclick="startHeartGame()" class="px-8 py-4 rounded-full font-semibold text-lg transition-all hover:scale-105" style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: white;">Jogar Novamente</button>
+            </div>
+          `;
+        }
+      }, 1000);
+    }
+    
+    function closeGameModal() {
+      document.getElementById('game-modal').classList.add('hidden');
+      document.getElementById('game-content').innerHTML = '';
+    }
+    
+    // Mobile menu toggle
+    document.getElementById('menu-btn').addEventListener('click', () => {
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu.classList.toggle('hidden');
     });
 
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const navHeight = document.querySelector('nav').offsetHeight;
+          const targetPosition = target.offsetTop - navHeight;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+          document.getElementById('mobile-menu').classList.add('hidden');
+        }
+      });
+    });
+
+    // Initialize SDK
     if (window.elementSdk) {
       window.elementSdk.init({
         defaultConfig,
@@ -706,5 +986,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a5d802862fda45a',t:'MTc2NDM3MTAyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a5ea55db2ad1ac1',t:'MTc2NDM4MzAzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
